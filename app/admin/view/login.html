@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>后台登录中心</title>
+    {load file="__LU__/css/layui.css" /}
+    {load file="__CSS__/login.main.css" /}
+</head>
+<body>
+
+<div class="layui-form">
+    <div class="container">
+        <div class="layui-form-mid layui-word-aux">
+<!--            <img id="logoid" src="06.png" height="35">-->
+            <span id="logoid">后台管理中心</span>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理账号</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">验证码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input verity">
+            </div>
+            <label class="captcha">{:captcha_img()}</label>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">登陆</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+{load file="__LU__/layui.js" /}
+</body>
+</html>
