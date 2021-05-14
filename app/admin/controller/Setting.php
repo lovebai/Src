@@ -23,7 +23,7 @@ class Setting extends Base
     //
     public function set(){
         $info=Request::param();
-        if($info!=''&&!empty($info)){
+        if($info!=''&&!empty($info)&&Request::isAjax()){
             try {
                 if (!empty(Request::post('status'))) {
                     $status = 1;
