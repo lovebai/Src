@@ -5,9 +5,69 @@ layui-this
 {/block}
 
 {block name="main"}
-<blockquote class="layui-elem-quote">
-  buglist
 
-</blockquote>
+<div class="layui-card">
+  <div class="layui-card-body">
+    <table id="table" lay-filter="test"></table>
+  </div>
+</div>
 
+{/block}
+
+
+{block name="js"}
+<script type="text/html" id="tobar">
+<div class="layui-btn-container">
+  <span class="layui-btn layui-btn-radius layui-btn-primary layui-font-18">漏洞列表</span>
+</div>
+</script>
+<!--操作-->
+<script type="text/html" id="rightbar">
+  <div class="layui-btn-container">
+    <button class="layui-btn layui-btn-sm  ">查看</button>
+    <button class="layui-btn layui-btn-sm  layui-btn-normal">编辑</button>
+    <button class="layui-btn layui-btn-sm  layui-btn-danger">删除</button>
+  </div>
+</script>
+
+<script>
+  layui.use('table', function(){
+    const table = layui.table;
+    table.render({
+      elem: '#table'
+      ,height: 565
+      ,toolbar:'#tobar'
+      ,url: '{:url("bug/list")}' //数据接口
+      ,page: true //开启分页
+      ,even: true //开启隔行背景
+      ,method:'post'
+      ,limit:11
+      ,cols: [[ //表头
+        {field: 'gid', title: 'ID',sort: true, fixed: 'left',width:70}
+        ,{field: 'title', title: '漏洞标题',width: 330}
+        ,{field: 'author', title: '提交者', sort: true,width: 94,align: 'center'}
+        ,{field: 'type', title: '漏洞类型',sort: true,align: 'center'}
+        ,{field: 'grade', title: '漏洞等级',width: 130,align: 'center',sort: true}
+        ,{field: 'status', title: '状态',width: 120,sort: true,align: 'center'}
+        ,{field: 'operation', title: '操作',align:'center',toolbar:'#rightbar'}
+      ]]
+      ,parseData: function(res){ //res 即为原始返回的数据
+        return {
+          "code": res.code, //解析接口状态
+          "msg": res.msg, //解析提示文本
+          "count": res.count, //解析数据长度
+          "data": res.data.data //解析数据列表
+        };
+      }
+      ,response: {
+        statusName: 'code' //规定数据状态的字段名称，默认：code
+        ,statusCode: 200 //规定成功的状态码，默认：0
+        ,msgName: 'msg' //规定状态信息的字段名称，默认：msg
+        ,countName: 'count' //规定数据总数的字段名称，默认：count
+        ,dataName: 'data' //规定数据列表的字段名称，默认：data
+      }
+    });
+
+  });
+</script>
 {/block}
