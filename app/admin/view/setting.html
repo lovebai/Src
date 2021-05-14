@@ -6,7 +6,7 @@ layui-this
 
 {block name="main"}
 <blockquote class="layui-elem-quote">
-  <h2>站点配置</h2>
+  <h3>站点配置</h3>
 </blockquote>
 <div class="layui-card">
   <div class="layui-card-body">
@@ -69,7 +69,7 @@ layui-this
       <div class="layui-form-item">
         <label class="layui-form-label">站点开关：</label>
         <div class="layui-input-block">
-          <input type="checkbox" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="filter" {if $info.status == 1 } checked {/if}>
+          <input type="checkbox" name="status" lay-skin="switch" lay-text="开启|关闭" lay-filter="filter" {if $info.status == 1 } checked {/if}>
         </div>
       </div>
 
@@ -83,7 +83,7 @@ layui-this
       <div class="layui-form-item">
         <div class="layui-input-block">
           <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
-          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+<!--          <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
         </div>
       </div>
     </div>
@@ -105,14 +105,30 @@ layui-this
 
     //监听提交
     form.on('submit(formDemo)', function(data){
-      layer.msg(JSON.stringify(data.field));
-        let info=JSON.stringify(data.field)
-        let status=null
-        if(info.switch=='on'){
-            status=1
-        }else{
-            status=0
-        }
+      // layer.msg(JSON.stringify(data.field));
+      console.log(JSON.stringify(data.field))
+        $.ajax({
+            url:'{:url("setting/set")}',
+            type:'post',
+            data:data.field,
+            success:(res)=>{
+                if(res.code==200){
+                    layer.msg(res.msg,{
+                        icon: 6,
+                        time: 1000
+                    },()=>{
+                        location.reload();
+                    })
+                }else{
+                    layer.msg("Error:"+res.msg,{
+                        icon: 5,
+                        time: 1000
+                    })
+                    return false
+                }
+            }
+
+        })
         return false
     });
 
