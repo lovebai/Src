@@ -6,8 +6,136 @@ layui-this
 
 {block name="main"}
 <blockquote class="layui-elem-quote">
-  网站配置
-
+  <h2>站点配置</h2>
 </blockquote>
+<div class="layui-card">
+  <div class="layui-card-body">
+    <div class="layui-form" >
 
+      <div class="layui-form-item">
+      <label class="layui-form-label">站点名称：</label>
+      <div class="layui-input-block">
+        <input type="text" name="name" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input" value="{$info.title}">
+      </div>
+     </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">站点描述：</label>
+        <div class="layui-input-block">
+          <input type="text" name="description" required  lay-verify="required" placeholder="请输入网站描述" autocomplete="off" class="layui-input" value="{$info.description}">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">关键词：</label>
+        <div class="layui-input-block">
+          <input type="text" name="keywords" required  lay-verify="required" placeholder="请输入站点关键词使用,分割" autocomplete="off" class="layui-input" value="{$info.keywords}">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">站点域名：</label>
+        <div class="layui-input-block">
+          <input type="text" name="domain" required  lay-verify="required" placeholder="请输入站点域名" autocomplete="off" class="layui-input" value="{$info.domain}">
+        </div>
+      </div>
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">LOGO：</label>
+            <div class="layui-input-block">
+                <input type="text" name="logo" id="logo" required  lay-verify="required" placeholder="请输入LOGO地址" autocomplete="off" class="layui-input layui-input-inline" value="{$info.logo}" style="width: 50%">
+                <button type="button" class="layui-btn layui-input-inline" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+        </div>
+
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">备案信息：</label>
+        <div class="layui-input-block">
+          <input type="text" name="icp" required  lay-verify="required" placeholder="请输入网站备案号" autocomplete="off" class="layui-input" value="{$info.icp}">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">版权信息：</label>
+        <div class="layui-input-block">
+          <input type="text" name="copyright" required  lay-verify="required" placeholder="请输入版权信息" autocomplete="off" class="layui-input" value="{$info.copyright}">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">站点开关：</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="switch" lay-skin="switch" lay-text="开启|关闭" lay-filter="filter" {if $info.status == 1 } checked {/if}>
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">统计代码：</label>
+        <div class="layui-input-block">
+          <textarea name="footer_info" placeholder="请再此输入统计代码" class="layui-textarea">{$info.footer_info}</textarea>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{/block}
+
+
+{block name="js"}
+<script>
+
+
+
+  layui.use(['form','upload'], function(){
+    const form = layui.form;
+    const upload = layui.upload;
+    const $ = layui.$;
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+      layer.msg(JSON.stringify(data.field));
+        let info=JSON.stringify(data.field)
+        let status=null
+        if(info.switch=='on'){
+            status=1
+        }else{
+            status=0
+        }
+        return false
+    });
+
+
+    //图片上传
+    upload.render({
+      elem: '#test1' //绑定元素
+      ,url: '{:url("upload/index")}' //上传接口,
+        ,method:'post'
+        ,accept:'images'
+        ,data:{
+            enctype:'multipart/form-data'
+        }
+      ,done: function(res){
+        //上传完毕回调
+        //     console.log(res.data.src)
+            $("#logo").val('uploads/'+res.data.src)
+      }
+      ,error: function(){
+        //请求异常回调
+      }
+    });
+
+  });
+</script>
 {/block}

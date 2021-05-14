@@ -54,7 +54,8 @@
             <dd class="{block name='postList'}{/block}"><a href="{:url('post/index')}">文章列表</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item">
+<!--        暂时隐藏-->
+        <li class="layui-nav-item layui-hide">
           <a href="javascript:;"><i class="layui-icon layui-icon-gift" style="font-size: 18px;"></i> 活动管理</a>
           <dl class="layui-nav-child">
             <dd class="{block name='addGift'}{/block}"><a href="{:url('gift/add')}">添加活动</a></dd>
@@ -87,15 +88,14 @@
 
         </li>
 
-    <!--    暂时不为厂商提供-->
-        <!--
-        <li class="layui-nav-item">
+<!--        暂时不为厂商提供-->
+        <li class="layui-nav-item layui-hide">
           <a href="javascript:;"><i class="layui-icon layui-icon-release"></i> 厂商管理</a>
           <dl class="layui-nav-child">
             <dd class="{block name=''}{/block}"><a href="javascript:;">添加厂商</a></dd>
             <dd><a href="javascript:;">厂商列表</a></dd>
           </dl>
-        </li>-->
+        </li>
 
         <li class="layui-nav-item {block name='setting'}{/block}"><a href="{:url('setting/index')}"><i class="layui-icon layui-icon-set-sm"></i> 站点配置</a></li>
       </ul>

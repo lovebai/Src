@@ -4,12 +4,18 @@
 namespace app\admin\controller;
 
 
+use app\admin\model\Config;
 use think\facade\View;
 
 class Setting
 {
     public function index(){
-        return View::fetch('/setting');
+
+
+        $info=Config::name('config')->where('id',1)->find();
+        return View::fetch('/setting',[
+            'info'=>$info
+        ]);
     }
 
 }

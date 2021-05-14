@@ -36,18 +36,18 @@ layui-this
       elem: '#table'
       ,height: 565
       ,toolbar:'#tobar'
-      ,url: '{:url("bug/list")}' //数据接口
+      ,url: '{:url("user/datalist")}' //数据接口
       ,page: true //开启分页
       ,even: true //开启隔行背景
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'id', title: 'ID',sort: true, fixed: 'left',width:70}
-        ,{field: 'username', title: '用户名',align: 'center'}
+        {field: 'username', title: '用户名',align: 'center'}
+        ,{field: 'phone', title: '手机号'}
         ,{field: 'team', title: '团队', sort: true,align: 'center'}
         ,{field: 'status', title: '状态',width: 130,align: 'center',sort: true}
-        ,{field: 'create_date', title: '注册时间',width: 120,sort: true,align: 'center'}
-        ,{field: 'operation', title: '操作',align:'center',toolbar:'#rightbar'}
+        ,{field: 'create_date', title: '注册时间',sort: true,align: 'center'}
+        ,{field: 'operation', title: '操作',align:'center',toolbar:'#rightbar',width: 230}
       ]]
       ,parseData: function(res){ //res 即为原始返回的数据
         return {

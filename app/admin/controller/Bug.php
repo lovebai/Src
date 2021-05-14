@@ -25,6 +25,6 @@ class Bug extends Base
         }
         $count=Bugb::name('bug')->select()->count();
 
-        return $this->create_return($bugList,200,'success',$count,'json');
+        return $this->create_return($bugList,200,'success',$count+1,'json');
     }
 }
