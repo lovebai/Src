@@ -88,14 +88,14 @@ class User extends Base
 
             if(Users::name('user')->where('id',$info['id'])->strict(false)->save($info)){
 
-                return $this->create_return($info,200,'恭喜您修改成功！',1,'json');
+                return $this->create_return([],200,'恭喜您修改成功！',1,'json');
 
             }else{
-                return $this->create_return($info,201,'修改失败,可能未修改内容或者其他原因！',0,'json');
+                return $this->create_return([],201,'修改失败,可能未修改内容或者其他原因！',0,'json');
 
             }
         }else{
-            return $this->create_return($info,204,'未传参数',0,'json');
+            return $this->create_return([],204,'未传参数',0,'json');
         }
     }
 
@@ -110,6 +110,34 @@ class User extends Base
             }
         }else{
             return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
+    }
+
+    //添加用户
+    public function insert(){
+        $info=Request::param(['username','id','password','phone','email','status','gender','birthday','team','wechat','qq','avatar','about']);
+        if($info!=''&&!empty($info)&&Request::isAjax()){
+            try {
+                if (!empty(Request::post('status'))) {
+                    $info['status']=1;
+                } else {
+                    $info['status']=0;
+                }
+
+            }catch (ErrorException $e){
+                return $this->create_return([],400,'Error！',1,'json');
+            }
+            $info['create_date']=date("Y-m-d G:i:s",time());
+            if(Users::name('user')->insert($info)){
+
+                return $this->create_return([],200,'恭喜您用户添加成功！',1,'json');
+
+            }else{
+                return $this->create_return([],201,'用户添加失败,！',0,'json');
+
+            }
+        }else{
+            return $this->create_return([],204,'未传参数',0,'json');
         }
     }
 
