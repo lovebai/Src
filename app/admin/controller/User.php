@@ -4,6 +4,7 @@
 namespace app\admin\controller;
 
 
+use think\exception\ErrorException;
 use think\facade\Request;
 use think\facade\View;
 use app\admin\model\User as Users;
@@ -30,6 +31,86 @@ class User extends Base
         $count=Users::name('user')->select()->count();
 
         return $this->create_return($bugList,200,'success',$count+1,'json');
+    }
+    //查看用户信息
+    public function see(){
+        $id=Request::get('id');
+        if($id!=''){
+            $info=Users::name('user')->where('id',$id)->find();
+            return View::fetch('/usersee',[
+                'info'=>$info
+            ]);
+
+        }else{
+            return "error";
+        }
+    }
+
+    //编辑页面
+    public function edit(){
+        $id=Request::get('id');
+        if($id!=''){
+            $info=Users::name('user')->where('id',$id)->find();
+
+            return View::fetch('/useredit',[
+                'info'=>$info,
+                'status'=>$info->getData('status')
+            ]);
+
+        }else{
+            return "error";
+        }
+    }
+
+    public function save(){
+        $info=Request::param();
+        if($info!=''&&!empty($info)&&Request::isAjax()){
+            try {
+                if (!empty(Request::post('status'))) {
+                    $info['status']=1;
+                } else {
+                    $info['status']=0;
+                }
+                if (!empty(Request::post('gender'))) {
+                    if($info['gender']=="男"){
+                        $info['gender']=1;
+                    }else if($info['gender']=='女'){
+                        $info['gender']=0;
+                    }else{
+                        $info['gender']=-1;
+                    }
+                } else {
+                    return $this->create_return([],401,'Error！',1,'json');
+                }
+            }catch (ErrorException $e){
+                return $this->create_return([],400,'Error！',1,'json');
+            }
+
+            if(Users::name('user')->where('id',$info['id'])->strict(false)->save($info)){
+
+                return $this->create_return($info,200,'恭喜您修改成功！',1,'json');
+
+            }else{
+                return $this->create_return($info,201,'修改失败,可能未修改内容或者其他原因！',0,'json');
+
+            }
+        }else{
+            return $this->create_return($info,204,'未传参数',0,'json');
+        }
+    }
+
+    //del
+    public function del(){
+        $id=Request::post('id');
+        if($id!=''&&!empty($id)&&Request::isAjax()){
+            if(Users::name('user')->where('id',$id)->delete()){
+                return $this->create_return([],200,'恭喜您删除成功！',1,'json');
+            }else{
+                return $this->create_return([],203,'删除失败！',0,'json');
+            }
+        }else{
+            return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
     }
 
 

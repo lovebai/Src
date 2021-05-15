@@ -5,10 +5,157 @@ layui-this
 {/block}
 
 {block name="main"}
-<blockquote class="layui-elem-quote">
-  添加用户
+  <blockquote class="layui-elem-quote">
+    <h3>添加用户</h3>
+  </blockquote>
 
-</blockquote>
+  <div class="layui-card">
+    <div class="layui-card-body">
+      <form class="layui-form" >
 
-{/block}
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户名：</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" required  lay-verify="required" placeholder="请输入登录用户名" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户密码：</label>
+          <div class="layui-input-block">
+            <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">再输一次：</label>
+          <div class="layui-input-block">
+            <input type="password" name="newpassword" required  lay-verify="required" placeholder="请在输入一次密码" autocomplete="off" class="layui-input" style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户手机：</label>
+          <div class="layui-input-block">
+            <input type="text" name="phone" placeholder="请输入用户手机号" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户邮箱：</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入用户邮箱" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">出生年月：</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" id="date" placeholder="请输入用户生日" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户团队：</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入所属用户团队" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户微信：</label>
+          <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入用户微信号" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户 QQ：</label>
+          <div class="layui-input-block">
+            <input type="text" name="qq" placeholder="请输入用户QQ号" autocomplete="off" class="layui-input"  style="width: 68%">
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户头像：</label>
+          <div class="layui-input-block">
+            <input type="text" name="avatar" id="logo" placeholder="请输入头像地址或者通过右边上传" autocomplete="off" class="layui-input layui-input-inline" style="width: 50%">
+            <button type="button" class="layui-btn layui-input-inline" id="test1">
+              <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+          </div>
+        </div>
+
+    <div class="layui-form-item layui-form-text">
+      <label class="layui-form-label">用户简介：</label>
+      <div class="layui-input-block">
+        <textarea placeholder="请输入内容" class="layui-textarea" style="width: 68%"></textarea>
+      </div>
+    </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">用户状态：</label>
+          <div class="layui-input-block">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用" lay-filter="filter" checked>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {/block}
+
+  {block name="js"}
+
+  <script>
+    //Demo
+    layui.use(['form','upload','laydate'], function(){
+      const form = layui.form;
+      const upload= layui.upload;
+      const laydate = layui.laydate;
+
+      //监听提交
+      form.on('submit(formDemo)', function(data){
+        layer.msg(JSON.stringify(data.field));
+        return false;
+      });
+
+      //执行一个laydate实例
+      laydate.render({
+        elem: '#date' //指定元素
+      });
+
+      //图片上传
+      upload.render({
+        elem: '#test1' //绑定元素
+        ,url: '{:url("upload/index")}' //上传接口,
+        ,method:'post'
+        ,accept:'images'
+        ,data:{
+          enctype:'multipart/form-data'
+        }
+        ,done: function(res){
+          //上传完毕回调
+          //     console.log(res.data.src)
+          $("#logo").val('uploads/'+res.data.src)
+        }
+        ,error: function(){
+          //请求异常回调
+        }
+      });
+
+    });
+
+
+
+  </script>
+
+  {/block}
 

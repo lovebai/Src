@@ -1,0 +1,163 @@
+{load file="__LU__/css/layui.css" /}
+{load file="__LU__/layui.js" /}
+<div class="layui-card">
+    <div class="layui-card-body">
+<form class="layui-form layui-form-pane" action="" xmlns="http://www.w3.org/1999/html" id="form">
+    <div class="layui-form-item"></div>
+    <div class="layui-form-item layui-hide">
+        <label class="layui-form-label">用户名：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.id}" name="id" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.username}" name="username" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+        <label class="layui-form-label">用户手机：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.phone}" name="phone" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户邮箱</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.email}" name="email" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+        <label class="layui-form-label">用户密码：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户性别：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.gender}" name="gender" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+        <label class="layui-form-label">用户生日:</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.birthday}" name="birthday" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户团队：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.team}" name="team" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+        <label class="layui-form-label">用户微信：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.wechat}" name="wechat" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户QQ:</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+
+
+
+        <label class="layui-form-label">注册时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.create_date}" name="create_date" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户状态：</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" lay-filter="filter" {if $status == 1 } checked {/if}>
+
+        </div>
+
+        <label class="layui-form-label">用户简介：</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.about}" name="about" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+    </div>
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label">用户头像:</label>
+        <div class="layui-input-inline">
+            <input type="text" value="{$info.avatar}" name="avatar" id="avatar" autocomplete="off" class="layui-input" disabled>
+        </div>
+        <button type="button" class="layui-btn layui-input-inline" id="test1">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+        </button>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+    </div>
+</div>
+
+<script>
+    //Demo
+    layui.use(['form','upload','layer'], function(){
+        const form = layui.form;
+        const upload=layui.upload;
+        const layer=layui.layer;
+        const $=layui.$;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            console.log(data.field)
+            $.ajax({
+                url:'{:url("user/save")}',
+                type:'post',
+                data:data.field,
+                success:(res)=>{
+                    if(res.code==200){
+                        layer.msg(res.msg,{
+                            icon: 6,
+                            time: 1000
+                        },()=>{
+                            // location.reload();
+                        })
+                    }else{
+                        layer.msg("Error:"+res.msg,{
+                            icon: 5,
+                            time: 1000
+                        })
+                        return false
+                    }
+                }
+
+            })
+            return false;
+        });
+
+        //图片上传
+        upload.render({
+            elem: '#test1' //绑定元素
+            ,url: '{:url("upload/index")}' //上传接口,
+            ,method:'post'
+            ,accept:'images'
+            ,data:{
+                enctype:'multipart/form-data'
+            }
+            ,done: function(res){
+                //上传完毕回调
+                //     console.log(res.data.src)
+                $("#avatar").val('uploads/'+res.data.src)
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+    });
+</script>

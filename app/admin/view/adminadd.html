@@ -6,9 +6,112 @@ layui-this
 
 {block name="main"}
 <blockquote class="layui-elem-quote">
-  添加管理员
-
+  <h3>添加管理员</h3>
 </blockquote>
+
+<div class="layui-card">
+  <div class="layui-card-body">
+    <form class="layui-form" >
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户名：</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required  lay-verify="required" placeholder="请输入后台登录用户名" autocomplete="off" class="layui-input"  style="width: 68%">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户密码：</label>
+        <div class="layui-input-block">
+          <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"  style="width: 68%">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">再输一次：</label>
+        <div class="layui-input-block">
+          <input type="password" name="newpassword" required  lay-verify="required" placeholder="请在输入一次密码" autocomplete="off" class="layui-input" style="width: 68%">
+        </div>
+      </div>
+
+      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+        <legend>以下两个可选其中一个，主要作用时后台用户头像，上传的头像高于获取的QQ</legend>
+      </fieldset>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">头像：</label>
+        <div class="layui-input-block">
+          <input type="text" name="avatar" id="logo" placeholder="请输入头像地址或者通过右边上传" autocomplete="off" class="layui-input layui-input-inline" style="width: 50%">
+          <button type="button" class="layui-btn layui-input-inline" id="test1">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+          </button>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">QQ：</label>
+        <div class="layui-input-block">
+          <input type="text" name="qq" placeholder="请输入QQ号" autocomplete="off" class="layui-input"  style="width: 68%">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户状态：</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="status" lay-skin="switch" lay-text="启用|禁用" lay-filter="filter" checked>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{/block}
+
+{block name="js"}
+
+<script>
+  //Demo
+  layui.use(['form','upload'], function(){
+    var form = layui.form;
+    var upload= layui.upload;
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+      layer.msg(JSON.stringify(data.field));
+      return false;
+    });
+
+    //图片上传
+    upload.render({
+      elem: '#test1' //绑定元素
+      ,url: '{:url("upload/index")}' //上传接口,
+      ,method:'post'
+      ,accept:'images'
+      ,data:{
+        enctype:'multipart/form-data'
+      }
+      ,done: function(res){
+        //上传完毕回调
+        //     console.log(res.data.src)
+        $("#logo").val('uploads/'+res.data.src)
+      }
+      ,error: function(){
+        //请求异常回调
+      }
+    });
+
+  });
+
+
+
+</script>
 
 {/block}
 

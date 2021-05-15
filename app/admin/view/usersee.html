@@ -1,0 +1,94 @@
+{load file="__LU__/css/layui.css" /}
+{load file="__LU__/layui.js" /}
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item"></div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.username}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户手机：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.phone}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户邮箱</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.email}" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户密码：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.password}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户性别：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.gender}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户生日:</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.birthday}" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户团队：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.team}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户微信：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.wechat}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户QQ:</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.qq}" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">注册时间：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.create_date}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户状态：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.status}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+        <label class="layui-form-label">用户简介：</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.about}" autocomplete="off" class="layui-input" disabled>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item ">
+        <label class="layui-form-label">用户头像:</label>
+        <div class="layui-input-inline">
+            <input type="text" placeholder="{$info.avatar}" autocomplete="off" class="layui-input" disabled>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
