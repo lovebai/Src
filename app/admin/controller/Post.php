@@ -17,5 +17,8 @@ class Post
     public function index(){
         return View::fetch('/postlist');
     }
+    public function list(){
+
+    }
 
 }
