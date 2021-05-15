@@ -36,18 +36,18 @@ layui-this
       elem: '#table'
       ,height: 565
       ,toolbar:'#tobar'
-      ,url: '{:url("bug/list")}' //数据接口
+      ,url: '{:url("post/list")}' //数据接口
       ,page: true //开启分页
       ,even: true //开启隔行背景
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'gid', title: 'ID',sort: true, fixed: 'left',width:70}
-        ,{field: 'title', title: '漏洞标题',width: 330}
-        ,{field: 'author', title: '提交者', sort: true,width: 94,align: 'center'}
-        ,{field: 'type', title: '漏洞类型',sort: true,align: 'center'}
-        ,{field: 'grade', title: '漏洞等级',width: 130,align: 'center',sort: true}
-        ,{field: 'status', title: '状态',width: 120,sort: true,align: 'center'}
+        {field: 'gid', title: 'ID',sort: true,width:70}
+        ,{field: 'title', title: '文章标题',width: 330}
+        ,{field: 'author', title: '作者', sort: true,width: 94,align: 'center'}
+        ,{field: 'type', title: '分类',sort: true,align: 'center'}
+        ,{field: 'date', title: '发布时间',align: 'center',sort: true}
+        ,{field: 'hide', title: '状态',width: 120,sort: true,align: 'center'}
         ,{field: 'operation', title: '操作',align:'center',toolbar:'#rightbar'}
       ]]
       ,parseData: function(res){ //res 即为原始返回的数据
