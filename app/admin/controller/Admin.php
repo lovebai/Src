@@ -60,4 +60,61 @@ class Admin extends Base
         }
     }
 
+    //编辑
+    public function edit(){
+        $id=Request::get('id');
+        if($id!=''&&!empty($id)&&Request::has('id')){
+            $info=Admins::name('admin')->where('id',$id)->find();
+
+            return View::fetch('/adminedit',[
+                'info'=>$info,
+                'status'=>$info->getData('status')
+            ]);
+
+        }else{
+            return "error";
+        }
+
+    }
+
+    public function update(){
+        $info=Request::param(['id','username','password','status','qq','avatar']);
+        if($info!=''&&!empty($info)&&Request::isAjax()){
+            try {
+                if (!empty(Request::post('status'))) {
+                    $info['status']=1;
+                } else {
+                    $info['status']=0;
+                }
+
+            }catch (ErrorException $e){
+                return $this->create_return([],400,'Error！',1,'json');
+            }
+            if(Admins::name('admin')->where('id',$info['id'])->save($info)){
+
+                return $this->create_return([],200,'恭喜您修改成功了',1,'json');
+
+            }else{
+                return $this->create_return([],201,'修改失败',0,'json');
+
+            }
+        }else{
+            return $this->create_return([],204,'未传参数',0,'json');
+        }
+    }
+
+    //删除
+
+    public function del(){
+        $id=Request::post('id');
+        if($id!=''&&!empty($id)&&Request::isAjax()&&Request::has('id')){
+            if(Admins::name('admin')->where('id',$id)->delete()){
+                return $this->create_return([],200,'恭喜您删除成功！',1,'json');
+            }else{
+                return $this->create_return([],203,'删除失败！',0,'json');
+            }
+        }else{
+            return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
+    }
 }

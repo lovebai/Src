@@ -74,7 +74,8 @@
     <div class="layui-form-item ">
         <label class="layui-form-label">用户头像:</label>
         <div class="layui-input-inline">
-            <input type="text" placeholder="{$info.avatar}" autocomplete="off" class="layui-input" disabled>
+            <input type="text" placeholder="{$info.avatar}" value="{$info.avatar}" id="avatar" autocomplete="off" class="layui-input layui-hide" disabled>
+            <label class="layui-btn" id="prv">头像预览</label>
         </div>
     </div>
 
@@ -84,11 +85,32 @@
     //Demo
     layui.use('form', function(){
         var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.$;
 
         //监听提交
         form.on('submit(formDemo)', function(data){
             layer.msg(JSON.stringify(data.field));
             return false;
         });
+
+        //图片预览
+        $('#prv').click(()=>{
+            let avatar=$("#avatar").val()
+            if(avatar!=''){
+                layer.open({
+                    type: 1,
+                    title:'预览',
+                    time:2000,
+                    skin: 'layui-layer-rim', //加上边框
+                    area: ['420px', '280px'], //宽高
+                    content: '<img src="'+avatar+'" width="100%" height="230px">'
+                });
+                return false
+            }else {
+                layer.msg("还未上传头像");
+            }
+            return false
+        })
     });
 </script>

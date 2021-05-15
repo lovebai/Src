@@ -5,82 +5,31 @@
 <form class="layui-form layui-form-pane" action="" xmlns="http://www.w3.org/1999/html" id="form">
     <div class="layui-form-item"></div>
     <div class="layui-form-item layui-hide">
-        <label class="layui-form-label">用户名：</label>
+        <label class="layui-form-label">ID：</label>
         <div class="layui-input-inline">
             <input type="text" value="{$info.id}" name="id" autocomplete="off" class="layui-input" required  lay-verify="required">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.username}" name="username" autocomplete="off" class="layui-input" required  lay-verify="required">
+        <div class="layui-input-block">
+            <input type="text" value="{$info.username}" name="username" autocomplete="off" class="layui-input" required  lay-verify="required|username">
         </div>
 
-        <label class="layui-form-label">用户手机：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.phone}" name="phone" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">用户邮箱</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.email}" name="email" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-
         <label class="layui-form-label">用户密码：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" required  lay-verify="required">
+        <div class="layui-input-block">
+            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" required  lay-verify="required|pass">
         </div>
 
     </div>
 
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户性别：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.gender}" name="gender" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-
-        <label class="layui-form-label">用户生日:</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.birthday}" name="birthday" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户团队：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.team}" name="team" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-
-        <label class="layui-form-label">用户微信：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.wechat}" name="wechat" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-    </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户QQ:</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-
-
-
-        <label class="layui-form-label">注册时间：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.create_date}" name="create_date" autocomplete="off" class="layui-input" required  lay-verify="required">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">用户状态：</label>
-        <div class="layui-input-inline">
-            <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" lay-filter="filter" {if $status == 1 } checked {/if}>
-
-        </div>
-
-        <label class="layui-form-label">用户简介：</label>
-        <div class="layui-input-inline">
-            <input type="text" value="{$info.about}" name="about" autocomplete="off" class="layui-input" >
+        <div class="layui-input-block">
+            <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input">
         </div>
     </div>
 
@@ -92,8 +41,16 @@
         <button type="button" class="layui-btn layui-input-inline" id="test1">
             <i class="layui-icon">&#xe67c;</i>上传图片
         </button>
-        <label class="layui-btn layui-btn-normal" id="prv">预览</label>
+        <label class="layui-form-label" id="prv">预览</label>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户状态：</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" lay-filter="filter" {if $status == 1 } checked {/if}>
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
@@ -104,6 +61,7 @@
 </form>
     </div>
 </div>
+
 
 <script>
     //Demo
@@ -118,7 +76,7 @@
             // layer.msg(JSON.stringify(data.field));
             console.log(data.field)
             $.ajax({
-                url:'{:url("user/save")}',
+                url:'{:url("admin/update")}',
                 type:'post',
                 data:data.field,
                 success:(res)=>{
@@ -171,9 +129,31 @@
                     time:2000,
                     skin: 'layui-layer-rim', //加上边框
                     area: ['420px', '280px'], //宽高
-                    content: '<img src="'+avatar+'" width="100%" height="230px">'
+                    content: '<img src="'+avatar+'" width="98%" height="230px">'
                 });
             }
         })
+
+        //验证
+        form.verify({
+            username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                    return '用户名首尾不能出现下划线\'_\'';
+                }
+                if (/^\d+\d+\d$/.test(value)) {
+                    return '用户名不能全为数字';
+                }
+                if (value.length < 3) {
+                    return '用户名必须最小3位！'
+                }
+            }
+
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            , pass: [
+                /^[\S]{6,18}$/
+                , '密码必须6到18位，且不能出现空格'
+            ]
+        });
     });
 </script>

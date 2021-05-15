@@ -78,7 +78,7 @@ layui-this
             type: 2,
             // skin: 'layui-layer-rim', //加上边框
             maxmin:true,
-            area: ['70%', '450px'], //宽高
+            area: ['70%', '80%'], //宽高
             content: ['{:url("user/see")}?id='+obj.data.id]
           });
               break
@@ -87,7 +87,7 @@ layui-this
           layer.open({
             type: 2,
             maxmin:true,
-            area: ['45%', '70%'], //宽高
+            area: ['50%', '75%'], //宽高
             content: '{:url("user/edit")}?id='+obj.data.id,
             cancel:()=>{
               //重载表格

@@ -24,14 +24,17 @@ layui-this
 <!--操作-->
 <script type="text/html" id="rightbar">
   <div class="layui-btn-container">
-    <button class="layui-btn layui-btn-sm  layui-btn-normal">编辑</button>
-    <button class="layui-btn layui-btn-sm  layui-btn-danger">删除</button>
+    <button class="layui-btn layui-btn-sm  layui-btn-normal" lay-event="edit">编辑</button>
+    <button class="layui-btn layui-btn-sm  layui-btn-danger" lay-event="del">删除</button>
   </div>
 </script>
 
 <script>
   layui.use('table', function(){
     const table = layui.table;
+    const layer = layui.layer;
+    const $ = layui.$;
+
     table.render({
       elem: '#table'
       ,toolbar:'#tobar'
@@ -41,7 +44,7 @@ layui-this
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'id', title: 'ID',sort: true, fixed: 'left',width:90}
+        {field: 'id', title: 'ID',sort: true, width:90}
         ,{field: 'username', title: '用户名',align: 'center'}
         ,{field: 'qq', title: 'QQ', align: 'center'}
         ,{field: 'avatar', title: '头像',align: 'center'}
@@ -65,6 +68,57 @@ layui-this
       }
     });
 
+    table.on('tool(test)', (obj)=>{
+      switch (obj.event){
+        case 'edit':
+          //编辑
+          layer.open({
+            title:'编辑',
+            type: 2,
+            maxmin:true,
+            area: ['45%', '70%'], //宽高
+            content: '{:url("admin/edit")}?id='+obj.data.id,
+            cancel:()=>{
+              //重载表格
+              table.reload('table')
+            }
+          });
+          break;
+        case 'del':
+          layer.confirm('您确定要删除'+obj.data.username+'吗？',
+                  {btn:['确认删除','取消删除']},
+                  ()=>{
+                    $.ajax({
+                      url:'{:url("admin/del")}',
+                      method: 'post',
+                      data: {
+                        id:obj.data.id
+                      },
+                      success:(res)=>{
+                        if (res.code==200){
+                          layer.msg(res.msg,{
+                            icon: 6,
+                            time: 1000
+                          },()=>{
+                            table.reload('table')
+                          })
+                        }else{
+                          layer.msg("Error:"+res.msg,{
+                            icon: 5,
+                            time: 1000
+                          })
+                          return false
+                        }
+                      }
+                    })
+                  },
+                  ()=>{
+                    layer.msg("您已取消了删除管理员操作")
+                  })
+
+          break;
+      }
+    });
   });
 </script>
 {/block}
