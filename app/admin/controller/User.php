@@ -115,7 +115,7 @@ class User extends Base
 
     //添加用户
     public function insert(){
-        $info=Request::param(['username','id','password','phone','email','status','gender','birthday','team','wechat','qq','avatar','about']);
+        $info=Request::param(['username','password','phone','email','status','gender','birthday','team','wechat','qq','avatar','about']);
         if($info!=''&&!empty($info)&&Request::isAjax()){
             try {
                 if (!empty(Request::post('status'))) {

@@ -16,21 +16,21 @@ layui-this
       <div class="layui-form-item">
         <label class="layui-form-label">用户名：</label>
         <div class="layui-input-block">
-          <input type="text" name="name" required  lay-verify="required" placeholder="请输入后台登录用户名" autocomplete="off" class="layui-input"  style="width: 68%">
+          <input type="text" name="username" required  lay-verify="required|username|email" placeholder="请输入后台登录用户名，使用邮箱" autocomplete="off" class="layui-input"  style="width: 68%">
         </div>
       </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">用户密码：</label>
         <div class="layui-input-block">
-          <input type="password" name="password" required  lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input"  style="width: 68%">
+          <input type="text" name="password" required  lay-verify="required|pass|password" placeholder="请输入密码" autocomplete="off" class="layui-input"  style="width: 68%">
         </div>
       </div>
 
       <div class="layui-form-item">
         <label class="layui-form-label">再输一次：</label>
         <div class="layui-input-block">
-          <input type="password" name="newpassword" required  lay-verify="required" placeholder="请在输入一次密码" autocomplete="off" class="layui-input" style="width: 68%">
+          <input type="password" name="password" required  lay-verify="required|pass|password" placeholder="请在输入一次密码" autocomplete="off" class="layui-input" style="width: 68%">
         </div>
       </div>
 
@@ -41,7 +41,7 @@ layui-this
       <div class="layui-form-item">
         <label class="layui-form-label">头像：</label>
         <div class="layui-input-block">
-          <input type="text" name="avatar" id="logo" placeholder="请输入头像地址或者通过右边上传" autocomplete="off" class="layui-input layui-input-inline" style="width: 50%">
+          <input type="text" name="avatar" id="avatar" placeholder="请输入头像地址或者通过右边上传" autocomplete="off" class="layui-input layui-input-inline" style="width: 50%">
           <button type="button" class="layui-btn layui-input-inline" id="test1">
             <i class="layui-icon">&#xe67c;</i>上传图片
           </button>
@@ -79,12 +79,46 @@ layui-this
 <script>
   //Demo
   layui.use(['form','upload'], function(){
-    var form = layui.form;
-    var upload= layui.upload;
+    const form = layui.form;
+    const upload= layui.upload;
+    const layer= layui.layer;
+    const $= layui.$;
 
     //监听提交
     form.on('submit(formDemo)', function(data){
-      layer.msg(JSON.stringify(data.field));
+      // layer.msg(JSON.stringify(data.field));
+      console.log(data.field)
+      $.ajax({
+        url:'{:url("admin/in")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          console.log(res)
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              layer.confirm('是否继续添加用户？',
+                      {btn:['是','否']},
+                      ()=>{
+                        location.reload()
+                      },()=>{
+                        location.href='{:url("admin/list")}'
+                      }
+              )
+              // location.reload();
+            })
+          }else{
+            layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
       return false;
     });
 
@@ -100,17 +134,41 @@ layui-this
       ,done: function(res){
         //上传完毕回调
         //     console.log(res.data.src)
-        $("#logo").val('uploads/'+res.data.src)
+        $("#avatar").val('uploads/'+res.data.src)
       }
       ,error: function(){
         //请求异常回调
       }
     });
 
+    //验证
+    form.verify({
+      username: function(value, item){ //value：表单的值、item：表单的DOM对象
+        if(/(^\_)|(\__)|(\_+$)/.test(value)){
+          return '用户名首尾不能出现下划线\'_\'';
+        }
+        if(/^\d+\d+\d$/.test(value)){
+          return '用户名不能全为数字';
+        }
+        if(value.length<3){
+          return '用户名必须最小3位！'
+        }
+      }
+
+      //我们既支持上述函数式的方式，也支持下述数组的形式
+      //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+      ,pass: [
+        /^[\S]{6,18}$/
+        ,'密码必须6到18位，且不能出现空格'
+      ]
+      ,password:()=>{
+        if ($('#old').val()!=$('#new').val()){
+          return '两次密码输入不一致！'
+        }
+      }
+    });
+
   });
-
-
-
 </script>
 
 {/block}
