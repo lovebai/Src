@@ -30,7 +30,7 @@ class User extends Base
         }
         $count=Users::name('user')->select()->count();
 
-        return $this->create_return($bugList,200,'success',$count+1,'json');
+        return $this->create_return($bugList,200,'success',$count,'json');
     }
     //查看用户信息
     public function see(){
