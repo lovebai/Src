@@ -33,6 +33,8 @@ layui-this
 <script>
   layui.use('table', function(){
     const table = layui.table;
+    const layer = layui.layer;
+    const $ = layui.$;
     table.render({
       elem: '#table'
       ,height: 565
@@ -43,8 +45,8 @@ layui-this
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'gid', title: 'ID',sort: true, width:70}
-        ,{field: 'title', title: '漏洞标题',width: 330}
+        // {field: 'gid', title: 'ID',sort: true, width:70},
+        {field: 'title', title: '漏洞标题',width: 330}
         ,{field: 'author', title: '提交者', sort: true,width: 94,align: 'center'}
         ,{field: 'type', title: '漏洞类型',sort: true,align: 'center'}
         ,{field: 'grade', title: '漏洞等级',width: 130,align: 'center',sort: true}
@@ -102,7 +104,7 @@ layui-this
                       url:'{:url("bug/del")}',
                       method: 'post',
                       data: {
-                        id:obj.data.id
+                        id:obj.data.gid
                       },
                       success:(res)=>{
                         if (res.code==200){

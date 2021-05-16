@@ -34,4 +34,21 @@ class Bug extends Base
         return View::fetch('bugsee');
     }
 
+    public function edit(){
+
+    }
+
+    public function del(){
+        $id=Request::post('id');
+        if($id!=''&&!empty($id)&&Request::isAjax()&&Request::has('id')){
+            if(Bugb::name('bug')->where('gid',$id)->delete()){
+                return $this->create_return([],200,'恭喜您删除成功！',1,'json');
+            }else{
+                return $this->create_return([],203,'删除失败！',0,'json');
+            }
+        }else{
+            return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
+    }
+
 }
