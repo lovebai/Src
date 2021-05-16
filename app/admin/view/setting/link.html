@@ -98,7 +98,7 @@ layui-this
             title:'编辑链接',
             maxmin:true,
             area: ['50%', '60%'], //宽高
-            content: '{:url("setting/editlink")}?id_del='+obj.data.id,
+            content: '{:url("setting/editlink")}?id_edit='+obj.data.id,
             cancel:()=>{
               //重载表格
               table.reload('table')

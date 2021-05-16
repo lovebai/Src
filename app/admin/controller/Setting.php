@@ -113,8 +113,8 @@ class Setting extends Base
             }
 
         }else{
-            if(Request::has('id_del')&&Request::param('id_del')!=''){
-                $info=Config::name('link')->where('id',Request::param('id_del'))->find();
+            if(Request::has('id_edit')&&Request::param('id_edit')!=''){
+                $info=Config::name('link')->where('id',Request::param('id_edit'))->find();
                 return View::fetch('editlink',[
                     'info'=>$info,
                     'status'=>$info->getData('status')
@@ -136,6 +136,86 @@ class Setting extends Base
             }
         }else{
             return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
+    }
+
+    //导航
+    public function nva(){
+        if (Request::has('limit')) {
+            $limit = Request::post("limit");
+            if ($limit != '') {
+                $info = Config::name('nav')->paginate($limit);
+            } else {
+                return $this->create_return([], 201, 'error', 0, 'json');
+            }
+            $count = Config::name('nav')->select()->count();
+
+            return $this->create_return($info, 200, 'success', $count , 'json');
+        }else{
+            return View::fetch('link');
+        }
+    }
+
+    public function addnva(){
+        $info=Request::param(['title','url','sort_id']);
+        if ($info!=''&&!empty($info)&&Request::has('url')&&Request::isAjax()){
+            try {
+                if (!empty(Request::post('status'))) {
+                    $info['status'] = 1;
+                } else {
+                    $info['status'] = 0;
+                }
+            }catch (ErrorException $e){
+                return $this->create_return([],400,'Error！',1,'json');
+            }
+
+            if(Config::name('nav')->insert($info)){
+
+                return $this->create_return($info,200,'恭喜您添加成功！',1,'json');
+
+            }else{
+                return $this->create_return($info,201,'添加失败！',0,'json');
+
+            }
+
+        }else{
+            return View::fetch('addnav');
+        }
+    }
+
+    public function editnva(){
+        $info=Request::param(['id','title','url','sort_id']);
+        if ($info!=''&&!empty($info)&&Request::has('url')&&Request::isAjax()){
+            try {
+                if (!empty(Request::post('status'))) {
+                    $info['status'] = 1;
+                } else {
+                    $info['status'] = 0;
+                }
+            }catch (ErrorException $e){
+                return $this->create_return([],400,'Error！',1,'json');
+            }
+
+            if(Config::name('nva')->where('id',$info['id'])->save($info)){
+
+                return $this->create_return($info,200,'恭喜您修改成功！',1,'json');
+
+            }else{
+                return $this->create_return($info,201,'修改失败,可能未修改内容或者其他原因！',0,'json');
+
+            }
+
+        }else{
+            if(Request::has('id_edit')&&Request::param('id_edit')!=''){
+                $info=Config::name('nva')->where('id',Request::param('id_edit'))->find();
+                return View::fetch('editlink',[
+                    'info'=>$info,
+                    'status'=>$info->getData('status')
+                ]);
+            }else{
+                return 'error';
+            }
+
         }
     }
 
