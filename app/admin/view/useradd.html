@@ -185,7 +185,20 @@ layui-this
         ,done: function(res){
           //上传完毕回调
           //     console.log(res.data.src)
-          $("#avatar").val('uploads/'+res.data.src)
+          $("#avatar").val('/uploads/'+res.data.src)
+          if(res.data.src!=''){
+            layer.open({
+              type: 1,
+              title:'头像预览',
+              closeBtn:0,
+              time:1000,
+              skin: 'layui-layer-rim', //加上边框
+              area: ['420px', '280px'], //宽高
+              content: '<img src="/uploads/'+res.data.src+'" width="98%" height="230px">'
+            });
+          }else{
+            layer.msg("您还未上传头像！")
+          }
         }
         ,error: function(){
           //请求异常回调

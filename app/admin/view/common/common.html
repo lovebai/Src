@@ -38,6 +38,7 @@
 
   <div class="layui-side layui-bg-black">
     <div class="layui-side-scroll">
+
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
         <li class="layui-nav-item {block name='bug'}{/block}"><a href="{:url('index/index')}"><i class="layui-icon layui-icon-home"></i> 控制台</a></li>
@@ -62,11 +63,11 @@
             <dd class="{block name='giftList'}{/block}"><a href="{:url('gift/list')}">活动列表</a></dd>
           </dl>
         </li>
-        <li class="layui-nav-item">
+        <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;"><i class="layui-icon layui-icon-group"></i> 用户管理</a>
 
           <dl class="layui-nav-child">
-            <ul class="layui-nav layui-nav-tree" >
+            <ul class="layui-nav layui-nav-tree ">
               <li class="layui-nav-item" >
                 <a href="javascript:;"><i class="layui-icon layui-icon-user"></i>&nbsp;普通用户</a>
                 <dl class="layui-nav-child">
@@ -97,7 +98,16 @@
           </dl>
         </li>
 
-        <li class="layui-nav-item {block name='setting'}{/block}"><a href="{:url('setting/index')}"><i class="layui-icon layui-icon-set-sm"></i> 站点配置</a></li>
+        <li class="layui-nav-item layui-nav-itemed">
+          <a href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i> 网站设置</a>
+          <dl class="layui-nav-child">
+            <dd class="{block name='setting'}{/block}"><a href="{:url('setting/index')}"><i class="layui-icon layui-icon-set-sm"></i> 站点信息</a></dd>
+            <dd class="{block name='links'}{/block}"><a href="{:url('setting/link')}"><i class="layui-icon layui-icon-link"></i> 友情链接</a></dd>
+            <dd class="{block name='nva'}{/block}"><a href="{:url('setting/nva')}"><i class="layui-icon layui-icon-menu-fill"></i> 导航设置</a></dd>
+          </dl>
+        </li>
+
+<!--        <li class="layui-nav-item {block name='setting'}{/block}"><a href="{:url('setting/index')}"><i class="layui-icon layui-icon-set-sm"></i> 站点配置</a></li>-->
       </ul>
     </div>
   </div>
