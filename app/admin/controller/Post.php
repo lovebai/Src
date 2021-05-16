@@ -12,25 +12,36 @@ class Post extends Base
 {
     //添加文章
     public function addPost(){
-        return View::fetch('postadd');
+        $post=Request::param(['title','author','date','sort_id','type','top','tags','views','hide','password','content']);
+        if($post!=''&&!empty($post)&&Request::isAjax()){
+            if(Posts::name('posts')->insert($post)){
+
+                return $this->create_return([],200,'恭喜发布成功！',1,'json');
+
+            }else{
+                return $this->create_return([],201,'发布失败,！',0,'json');
+
+            }
+        }else{
+            return View::fetch('postadd');
+        }
 
     }
     //文章列表
     public function index(){
-        return View::fetch('postlist');
-    }
+        if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
+            $limit=Request::post("limit");
+            if($limit!=''){
+                $list=Posts::name('posts')->paginate($limit);
+            }else{
+                return $this->create_return([],201,'error',0,'json');
+            }
+            $count=Posts::name('posts')->select()->count();
 
-    public function list(){
-
-        $limit=Request::post("limit");
-        if($limit!=''){
-            $bugList=Posts::name('posts')->paginate($limit);
+            return $this->create_return($list,200,'success',$count,'json');
         }else{
-            return $this->create_return([],201,'error',0,'json');
+            return View::fetch('postlist');
         }
-        $count=Posts::name('posts')->select()->count();
-
-        return $this->create_return($bugList,200,'success',$count,'json');
     }
 
     //详情

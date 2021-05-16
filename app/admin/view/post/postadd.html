@@ -108,6 +108,7 @@ layui-this
 
 {block name="js"}
 
+
 <script>
   //Demo
   layui.use(['form','laydate'], function(){
@@ -120,7 +121,7 @@ layui-this
     layui.extend({
       tinymce: '../../static/tinymce/tinymce'
     }).use(['tinymce'], function () {
-      var t = layui.tinymce
+      let t = layui.tinymce
 
       t.render({
         elem: "#content",
@@ -139,8 +140,38 @@ layui-this
     //监听提交
     form.on('submit(formDemo)', function(data){
       // layer.msg(JSON.stringify(data.field));
-      data.field['txt']=content.getContent()
-      console.log(data.field)
+      data.field['content']=content.getContent()
+      $.ajax({
+        url:'{:url("post/addpost")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          console.log(res)
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              layer.confirm('是否继续添加发布？',
+                      {btn:['是','否']},
+                      ()=>{
+                        location.reload()
+                      },()=>{
+                        location.href='{:url("post/index")}'
+                      }
+              )
+              // location.reload();
+            })
+          }else{
+            layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
       return false;
     });
   });
