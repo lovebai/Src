@@ -20,7 +20,7 @@ layui-this
 {block name="js"}
 <script type="text/html" id="tobar">
   <div class="layui-btn-container">
-    <span class="layui-btn layui-btn-radius layui-btn-primary layui-font-18">友情链接</span>
+    <span class="layui-btn layui-btn-radius layui-btn-primary layui-font-18">导航列表</span>
     <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="add">添加网站</button>
   </div>
 </script>
@@ -41,14 +41,13 @@ layui-this
       elem: '#table'
       ,height: 565
       ,toolbar:'#tobar'
-      ,url: '{:url("setting/link")}' //数据接口
+      ,url: '{:url("setting/nav")}' //数据接口
       ,page: true //开启分页
       ,even: true //开启隔行背景
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'title', title: '网站名称',align: 'center'}
-        ,{field: 'description', title: '网站描述'}
+        {field: 'name', title: '网站名称',align: 'center'}
         ,{field: 'url', title: '网站链接', align: 'center'}
         ,{field: 'sort_id', title: '排序',sort: true,align: 'center'}
         ,{field: 'status', title: '状态',width: 130,align: 'center',sort: true}
@@ -83,8 +82,8 @@ layui-this
             // skin: 'layui-layer-rim', //加上边框
             title:'添加链接',
             maxmin: true,
-            area: ['50%', '60%'], //宽高
-            content: ['{:url("setting/addlink")}'],
+            area: ['50%', '55%'], //宽高
+            content: ['{:url("setting/addnav")}'],
             cancel:()=>{
               //重载表格
               table.reload('table')
@@ -101,8 +100,8 @@ layui-this
             type: 2,
             title:'编辑链接',
             maxmin:true,
-            area: ['50%', '60%'], //宽高
-            content: '{:url("setting/editlink")}?id_edit='+obj.data.id,
+            area: ['50%', '55%'], //宽高
+            content: '{:url("setting/editnav")}?id_edit='+obj.data.id,
             cancel:()=>{
               //重载表格
               table.reload('table')
@@ -110,11 +109,11 @@ layui-this
           });
           break;
         case 'del':
-          layer.confirm('您确定要删除<span style="color: #fa0c0c;font-weight: 700;">'+obj.data.title+'</span>吗？',
+          layer.confirm('您确定要删除<span style="color: #fa0c0c;font-weight: 700;">'+obj.data.name+'</span>吗？',
                   {btn:['确认删除','取消删除']},
                   ()=>{
                     $.ajax({
-                      url:'{:url("setting/dellink")}',
+                      url:'{:url("setting/delnav")}',
                       method: 'post',
                       data: {
                         id:obj.data.id

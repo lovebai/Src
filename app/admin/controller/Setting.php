@@ -140,7 +140,7 @@ class Setting extends Base
     }
 
     //导航
-    public function nva(){
+    public function nav(){
         if (Request::has('limit')) {
             $limit = Request::post("limit");
             if ($limit != '') {
@@ -152,12 +152,12 @@ class Setting extends Base
 
             return $this->create_return($info, 200, 'success', $count , 'json');
         }else{
-            return View::fetch('link');
+            return View::fetch('nav');
         }
     }
 
-    public function addnva(){
-        $info=Request::param(['title','url','sort_id']);
+    public function addnav(){
+        $info=Request::param(['name','url','sort_id']);
         if ($info!=''&&!empty($info)&&Request::has('url')&&Request::isAjax()){
             try {
                 if (!empty(Request::post('status'))) {
@@ -183,8 +183,8 @@ class Setting extends Base
         }
     }
 
-    public function editnva(){
-        $info=Request::param(['id','title','url','sort_id']);
+    public function editnav(){
+        $info=Request::param(['id','name','url','sort_id']);
         if ($info!=''&&!empty($info)&&Request::has('url')&&Request::isAjax()){
             try {
                 if (!empty(Request::post('status'))) {
@@ -196,7 +196,7 @@ class Setting extends Base
                 return $this->create_return([],400,'Error！',1,'json');
             }
 
-            if(Config::name('nva')->where('id',$info['id'])->save($info)){
+            if(Config::name('nav')->where('id',$info['id'])->save($info)){
 
                 return $this->create_return($info,200,'恭喜您修改成功！',1,'json');
 
@@ -207,8 +207,8 @@ class Setting extends Base
 
         }else{
             if(Request::has('id_edit')&&Request::param('id_edit')!=''){
-                $info=Config::name('nva')->where('id',Request::param('id_edit'))->find();
-                return View::fetch('editlink',[
+                $info=Config::name('nav')->where('id',Request::param('id_edit'))->find();
+                return View::fetch('editnav',[
                     'info'=>$info,
                     'status'=>$info->getData('status')
                 ]);
@@ -216,6 +216,19 @@ class Setting extends Base
                 return 'error';
             }
 
+        }
+    }
+
+    public function delnav(){
+        $id=Request::post('id');
+        if($id!=''&&!empty($id)&&Request::isAjax()&&Request::has('id')){
+            if(Config::name('nav')->where('id',$id)->delete()){
+                return $this->create_return([],200,'恭喜您删除成功！',1,'json');
+            }else{
+                return $this->create_return([],203,'删除失败！',0,'json');
+            }
+        }else{
+            return $this->create_return([],201,'提交参数有误！',0,'json');
         }
     }
 
