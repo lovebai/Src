@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>后台管理中心</title>
+  <title>['title'] - 后台管理中心</title>
   {load file="__LU__/css/layui.css" /}
 </head>
 <body class="layui-layout-body">
@@ -46,6 +46,7 @@
           <a class="" href="javascript:;"><i class="layui-icon layui-icon-senior"></i> 漏洞管理</a>
           <dl class="layui-nav-child">
             <dd class="{block name='bugList'}{/block}"><a href="{:url('bug/index')}">漏洞列表</a></dd>
+            <dd class="{block name=''}{/block}"><a href="{:url('bug/')}">漏洞分类</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">

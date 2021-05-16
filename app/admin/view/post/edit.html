@@ -6,32 +6,33 @@ layui-this
 
 {block name="main"}
 <blockquote class="layui-elem-quote">
-  <h3>添加文章</h3>
+  <h3>编辑文章</h3>
 </blockquote>
 
 <div class="layui-card">
   <div class="layui-card-body">
-    <form class="layui-form" action="">
+    <form class="layui-form ">
       <div class="layui-form-item">
         <label class="layui-form-label">文章标题：</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required  lay-verify="required" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
+          <input type="text" name="title" required  lay-verify="required" value="{$post.title}" autocomplete="off" class="layui-input">
+          <input type="text" name="gid" required  lay-verify="required" value="{$post.gid}" autocomplete="off" class="layui-input layui-hide">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">文章作者：</label>
         <div class="layui-input-inline">
-          <input type="text" name="author" required  lay-verify="required" placeholder="请输入文章作者" autocomplete="off" class="layui-input">
+          <input type="text" name="author"  required  lay-verify="required" value="{$post.author}" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label">发布时间：</label>
         <div class="layui-input-inline">
-          <input type="text" name="date" required id="date"  lay-verify="required" placeholder="请选择发布时间" autocomplete="off" class="layui-input">
+          <input type="text" name="date"  required id="date"  lay-verify="required" value="{$post.date}" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label">文章排序：</label>
         <div class="layui-input-inline">
-          <input type="number" name="sort_id"  placeholder="数字越大越靠前" autocomplete="off" class="layui-input">
+          <input type="number" name="sort_id"  value="{$post.sort_id}" autocomplete="off" class="layui-input">
         </div>
-<!--        <div class="layui-form-mid layui-word-aux">辅助文字</div>-->
+        <!--        <div class="layui-form-mid layui-word-aux">辅助文字</div>-->
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">文章分类：</label>
@@ -47,65 +48,62 @@ layui-this
         </div>
         <label class="layui-form-label">文章密码:</label>
         <div class="layui-input-inline">
-          <input type="password" name="password"  placeholder="请输入密码" autocomplete="off" class="layui-input">
+          <input type="text" name="password"   value="{$post.password}" autocomplete="off" class="layui-input">
         </div>
         <label class="layui-form-label">访问人数：</label>
         <div class="layui-input-inline">
-          <input type="text" name="views"  placeholder="文章访问人数" autocomplete="off" class="layui-input">
+          <input type="text" name="views"   value="{$post.views}" autocomplete="off" class="layui-input">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">文章标签：</label>
         <div class="layui-input-inline">
-          <input type="text" name="tags"  placeholder="文章标签使用','号隔开" autocomplete="off" class="layui-input">
+          <input type="text" name="tags"  value="{$post.tags}" autocomplete="off" class="layui-input">
         </div>
 
         <label class="layui-form-label">是否隐藏：</label>
         <div class="layui-input-inline">
-          <input type="radio" name="hide" value="n" title="显示" checked>
-          <input type="radio" name="hide" value="y" title="隐藏">
+          <input type="radio" name="hide" value="n" title="显示" {if $hide=='n'}checked{/if}>
+          <input type="radio" name="hide" value="y" title="隐藏" {if $hide=='y'}checked{/if}>
         </div>
 
         <label class="layui-form-label">是否置顶：</label>
         <div class="layui-input-inline">
-          <input type="radio" name="top" value="y" title="是">
-          <input type="radio" name="top" value="n" title="否" checked>
+          <input type="radio" name="top" value="y" title="是" {if $post.top=='y'}checked{/if}>
+          <input type="radio" name="top" value="n" title="否" {if $post.top=='n'}checked{/if}>
         </div>
       </div>
 
-<!--      <div class="layui-form-pane">-->
-<!--      <div class="layui-form-item layui-form-text">-->
-<!--        <label class="layui-form-label">文本域</label>-->
-<!--        <div class="layui-input-block">-->
-<!--          <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      </div>-->
+      <!--      <div class="layui-form-pane">-->
+      <!--      <div class="layui-form-item layui-form-text">-->
+      <!--        <label class="layui-form-label">文本域</label>-->
+      <!--        <div class="layui-input-block">-->
+      <!--          <textarea name="desc" value="请输入内容" class="layui-textarea"></textarea>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      </div>-->
 
-        <div class="layui-form-item">
-          <label class="layui-form-label">文章内容</label>
-          <div class="layui-input-block">
-            <textarea id="content" style="height: 550px"></textarea>
-          </div>
-        </div>
+      <div class="layui-form-item layui-clear">
+          <textarea id="content" class="layui-textarea" style="height: 550px">{$post.content}</textarea>
+      </div>
 
       <div class="layui-form-item">
         <div class="layui-input-block">
           <button class="layui-btn layui-col-md9" lay-submit lay-filter="formDemo">发布</button>
-<!--          <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+          <!--          <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
         </div>
       </div>
+
     </form>
 
   </div>
 
 </div>
+
 {/block}
 
 
 {block name="js"}
-
-
 <script>
   //Demo
   layui.use(['form','laydate'], function(){
@@ -139,7 +137,7 @@ layui-this
       // layer.msg(JSON.stringify(data.field));
       data.field['content']=content.getContent()
       $.ajax({
-        url:'{:url("post/addpost")}',
+        url:'{:url("post/edit")}',
         type:'post',
         data:data.field,
         success:(res)=>{
@@ -149,12 +147,12 @@ layui-this
               icon: 6,
               time: 1000
             },()=>{
-              layer.confirm('是否继续添加发布？',
+              layer.confirm('是否继续编辑？',
                       {btn:['是','否']},
                       ()=>{
                         location.reload()
                       },()=>{
-                        location.href='{:url("post/index")}'
+                        location.href='{:url("post/edit")}'
                       }
               )
               // location.reload();
@@ -173,4 +171,5 @@ layui-this
     });
   });
 </script>
+
 {/block}

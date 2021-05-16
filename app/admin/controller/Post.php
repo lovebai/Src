@@ -46,10 +46,44 @@ class Post extends Base
 
     //详情
     public function see(){
-        return View::fetch('postsee');
+        if(Request::has('id')&&!empty(Request::param())&&Request::param('id')!=''){
+            $id=Request::param('id');
+            $posts=Posts::name('posts')->where('gid',$id)->find();
+            if($posts){
+                return View::fetch('postsee',[
+                    'post'=>$posts
+                ]);
+            }else{
+                return $this->create_return([],203,'获取失败！',0,'json');
+            }
+        }else{
+            return 'error';
+        }
     }
 
     public function edit(){
+        $post=Request::param(['gid','title','author','date','sort_id','type','top','tags','views','hide','password','content']);
+        if($post!=''&&!empty($post)&&Request::isAjax()){
+            if(Posts::name('posts')->where('gid',$post['gid'])->save($post)){
+
+                return $this->create_return([],200,'文章编辑成功了',1,'json');
+
+            }else{
+                return $this->create_return([],201,'编辑失败了',0,'json');
+
+            }
+        }else {
+            if (Request::get('id') && Request::has('id')) {
+                $post = Posts::name('posts')->where('gid', Request::get('id'))->find();
+                return View::fetch('edit', [
+                    'post' => $post,
+                    'hide' => $post->getData('hide')
+                ]);
+            } else {
+                return redirect(url('post/index'));
+            }
+
+        }
 
     }
 
