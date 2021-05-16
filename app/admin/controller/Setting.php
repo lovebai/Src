@@ -14,7 +14,7 @@ class Setting extends Base
     //显示
     public function index(){
         $info=Config::name('config')->where('id',1)->find();
-        return View::fetch('/setting',[
+        return View::fetch('setting',[
             'info'=>$info
         ]);
     }

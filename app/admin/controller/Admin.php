@@ -12,12 +12,12 @@ class Admin extends Base
 {
     //添加后台用户
     public function add(){
-        return View::fetch('/adminadd');
+        return View::fetch('adminadd');
     }
 
     //后台管理员列表
     public function list(){
-        return View::fetch('/adminlist');
+        return View::fetch('adminlist');
     }
 
     //列表数据
@@ -66,7 +66,7 @@ class Admin extends Base
         if($id!=''&&!empty($id)&&Request::has('id')){
             $info=Admins::name('admin')->where('id',$id)->find();
 
-            return View::fetch('/adminedit',[
+            return View::fetch('adminedit',[
                 'info'=>$info,
                 'status'=>$info->getData('status')
             ]);

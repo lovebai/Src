@@ -13,12 +13,12 @@ class User extends Base
 {
     //添加用户
     public function add(){
-        return View::fetch('/useradd');
+        return View::fetch('useradd');
     }
     //用户列表
     //页面
     public function list(){
-        return View::fetch('/userlist');
+        return View::fetch('userlist');
     }
     //数据
     public function datalist(){
@@ -37,7 +37,7 @@ class User extends Base
         $id=Request::get('id');
         if($id!=''){
             $info=Users::name('user')->where('id',$id)->find();
-            return View::fetch('/usersee',[
+            return View::fetch('usersee',[
                 'info'=>$info
             ]);
 
@@ -52,7 +52,7 @@ class User extends Base
         if($id!=''){
             $info=Users::name('user')->where('id',$id)->find();
 
-            return View::fetch('/useredit',[
+            return View::fetch('useredit',[
                 'info'=>$info,
                 'status'=>$info->getData('status')
             ]);

@@ -13,9 +13,10 @@ class Bug extends Base
 {
     public function index(){
 
-        return View::fetch('/buglist');
+        return View::fetch('buglist');
     }
 
+    //提供数据
     public function list(){
         $limit=Request::post("limit");
         if($limit!=''){
@@ -27,4 +28,10 @@ class Bug extends Base
 
         return $this->create_return($bugList,200,'success',$count+1,'json');
     }
+
+    public function see(){
+
+        return View::fetch('bugsee');
+    }
+
 }
