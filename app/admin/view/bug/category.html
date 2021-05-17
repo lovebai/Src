@@ -1,13 +1,8 @@
 {extend name="common/common"}
-
-{block name='links'}
-layui-this
-{/block}
+{block name='category'}layui-this{/block}
 
 {block name="main"}
-<!--<blockquote class="layui-elem-quote">-->
-<!--  <h3>友情链接</h3>-->
-<!--</blockquote>-->
+
 <div class="layui-card">
   <div class="layui-card-body">
     <table id="table" lay-filter="test"></table>
@@ -20,8 +15,8 @@ layui-this
 {block name="js"}
 <script type="text/html" id="tobar">
   <div class="layui-btn-container">
-    <span class="layui-btn layui-btn-radius layui-btn-primary layui-font-18">友情链接</span>
-    <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="add">添加网站</button>
+    <span class="layui-btn layui-btn-radius layui-btn-primary layui-font-18">漏洞分类管理</span>
+    <button class="layui-btn layui-btn-sm layui-bg-blue" lay-event="add">添加分类</button>
   </div>
 </script>
 <!--操作-->
@@ -41,7 +36,7 @@ layui-this
       elem: '#table'
       ,height: 565
       ,toolbar:'#tobar'
-      ,url: '{:url("setting/link")}' //数据接口
+      ,url: '{:url("bug/category")}' //数据接口
       ,page: true //开启分页
       ,even: true //开启隔行背景
       ,method:'post'

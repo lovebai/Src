@@ -101,6 +101,11 @@ class Post extends Base
         }
     }
 
+    public function category(){
+
+        return View::fetch('category');
+    }
+
 
 
 }

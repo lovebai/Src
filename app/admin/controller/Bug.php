@@ -51,4 +51,8 @@ class Bug extends Base
         }
     }
 
+    public function category(){
+        return View::fetch('category');
+    }
+
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>['title'] - 后台管理中心</title>
+  <title>后台管理中心</title>
   {load file="__LU__/css/layui.css" /}
 </head>
 <body class="layui-layout-body">
@@ -41,12 +41,12 @@
 
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
-        <li class="layui-nav-item {block name='bug'}{/block}"><a href="{:url('index/index')}"><i class="layui-icon layui-icon-home"></i> 控制台</a></li>
-        <li class="layui-nav-item">
+        <li class="layui-nav-item {block name='index'}{/block}"><a href="{:url('index/index')}"><i class="layui-icon layui-icon-home"></i> 控制台</a></li>
+        <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;"><i class="layui-icon layui-icon-senior"></i> 漏洞管理</a>
           <dl class="layui-nav-child">
-            <dd class="{block name='bugList'}{/block}"><a href="{:url('bug/index')}">漏洞列表</a></dd>
-            <dd class="{block name=''}{/block}"><a href="{:url('bug/')}">漏洞分类</a></dd>
+            <dd class="{block name='bug'}{/block} layui-icon"><a href="{:url('bug/index')}"><i class="layui-icon layui-icon-spread-left"></i> 漏洞列表</a></dd>
+            <dd class="{block name='category'}{/block}"><a href="{:url('bug/category')}"> <i class="layui-icon layui-icon-menu-fill"></i> 漏洞分类</a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -54,7 +54,7 @@
           <dl class="layui-nav-child">
             <dd class="{block name='addPost'}{/block}"><a href="{:url('post/addpost')}">添加文章</a></dd>
             <dd class="{block name='postList'}{/block}"><a href="{:url('post/index')}">文章列表</a></dd>
-            <dd class="{block name='p'}{/block}"><a href="{:url('pos')}">文章分类</a></dd>
+            <dd class="{block name='category1'}{/block}"><a href="{:url('post/category')}">文章分类</a></dd>
           </dl>
         </li>
 <!--        暂时隐藏-->
@@ -105,7 +105,7 @@
           <dl class="layui-nav-child">
             <dd class="{block name='setting'}{/block}"><a href="{:url('setting/index')}"><i class="layui-icon layui-icon-set-sm"></i> 站点信息</a></dd>
             <dd class="{block name='links'}{/block}"><a href="{:url('setting/link')}"><i class="layui-icon layui-icon-link"></i> 友情链接</a></dd>
-            <dd class="{block name='nva'}{/block}"><a href="{:url('setting/nav')}"><i class="layui-icon layui-icon-menu-fill"></i> 导航设置</a></dd>
+            <dd class="{block name='nav'}{/block}"><a href="{:url('setting/nav')}"><i class="layui-icon layui-icon-menu-fill"></i> 导航设置</a></dd>
           </dl>
         </li>
 
