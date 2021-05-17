@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 
 use app\admin\model\Posts;
+use think\facade\Db;
 use think\facade\Request;
 use think\facade\View;
 
@@ -23,7 +24,10 @@ class Post extends Base
 
             }
         }else{
-            return View::fetch('postadd');
+            $type=Db::name('postcg')->paginate();
+            return View::fetch('postadd',[
+                'type'=>$type
+            ]);
         }
 
     }
@@ -37,6 +41,7 @@ class Post extends Base
                 return $this->create_return([],201,'error',0,'json');
             }
             $count=Posts::name('posts')->select()->count();
+            $list['type']=Db::name('postcg')->paginate();
 
             return $this->create_return($list,200,'success',$count,'json');
         }else{
