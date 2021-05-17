@@ -102,8 +102,68 @@ class Post extends Base
     }
 
     public function category(){
+        if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
+            $limit=Request::post("limit");
+            if($limit!=''){
+                $list=Posts::name('postcg')->paginate($limit);
+            }else{
+                return $this->create_return(false,201,'error',0,'json');
+            }
+            $count=Posts::name('postcg')->select()->count();
 
-        return View::fetch('category');
+            return $this->create_return($list,200,'success',$count,'json');
+        }else{
+            return View::fetch('category');
+        }
+    }
+
+    public function addcategory(){
+        if(Request::isAjax()&&Request::has('category')){
+            $data=Request::param();
+
+            if(Posts::name('postcg')->insert($data)){
+                return $this->create_return(true,200,'恭喜您分类添加成功了',1,'json');
+            }else{
+                return $this->create_return(false,201,'error',0,'json');
+            }
+        }else{
+            return View::fetch('category_add');
+        }
+    }
+
+    public function editcategory(){
+        if(Request::get('edit_id')&&Request::has('edit_id')){
+            $data=Posts::name('postcg')->where('id',Request::get('edit_id'))->find();
+            if($data){
+                return View::fetch('category_edit',[
+                    'data'=>$data
+                ]);
+            }else{
+                return "error";
+            }
+        }else if(!empty(Request::param())&&Request::isAjax()&&Request::has('category')){
+            if(Posts::name('postcg')->where('id',Request::post('id'))->save(Request::param())){
+                return $this->create_return(true,200,'已编辑成功',1,'json');
+            }else{
+                return $this->create_return(false,201,'编辑失败，可能是您未做过修改',0,'json');
+            }
+        }else{
+            return $this->create_return(false,400,'error',0,'json');
+        }
+    }
+
+    //删除分类
+    public function delcategory(){
+        $id=Request::post('id');
+        if($id!=''&&!empty($id)&&Request::isAjax()&&Request::has('id')){
+            if(Posts::name('postcg')->where('id',$id)->delete()){
+                return $this->create_return([],200,'恭喜您删除成功！',1,'json');
+            }else{
+                return $this->create_return([],203,'删除失败！',0,'json');
+            }
+        }else{
+            return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
     }
 
 

@@ -55,7 +55,7 @@ class Bug extends Base
         if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
             $limit=Request::post("limit");
             if($limit!=''){
-                $list=Bugb::name('bugcg')->order('id','desc')->paginate($limit);
+                $list=Bugb::name('bugcg')->paginate($limit);
             }else{
                 return $this->create_return(false,201,'error',0,'json');
             }
