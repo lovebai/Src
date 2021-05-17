@@ -32,7 +32,7 @@ class Post extends Base
         if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
             $limit=Request::post("limit");
             if($limit!=''){
-                $list=Posts::name('posts')->paginate($limit);
+                $list=Posts::name('posts')->order('gid','desc')->paginate($limit);
             }else{
                 return $this->create_return([],201,'error',0,'json');
             }

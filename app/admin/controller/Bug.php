@@ -20,9 +20,9 @@ class Bug extends Base
     public function list(){
         $limit=Request::post("limit");
         if($limit!=''){
-            $bugList=Bugb::name('bug')->paginate($limit);
+            $bugList=Bugb::name('bug')->order('gid','desc')->paginate($limit);
         }else{
-            return $this->create_return([],201,'error',0,'json');
+            return $this->create_return(false,201,'error',0,'json');
         }
         $count=Bugb::name('bug')->select()->count();
 
@@ -52,7 +52,19 @@ class Bug extends Base
     }
 
     public function category(){
-        return View::fetch('category');
+        if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
+            $limit=Request::post("limit");
+            if($limit!=''){
+                $list=Bugb::name('bugcg')->order('id','desc')->paginate($limit);
+            }else{
+                return $this->create_return(false,201,'error',0,'json');
+            }
+            $count=Bugb::name('bugcg')->select()->count();
+
+            return $this->create_return($list,200,'success',$count,'json');
+        }else{
+            return View::fetch('category');
+        }
     }
 
 }

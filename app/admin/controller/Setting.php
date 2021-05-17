@@ -51,7 +51,7 @@ class Setting extends Base
         if (Request::has('limit')) {
             $limit = Request::post("limit");
             if ($limit != '') {
-                $info = Config::name('link')->paginate($limit);
+                $info = Config::name('link')->order('id','desc')->paginate($limit);
             } else {
                 return $this->create_return([], 201, 'error', 0, 'json');
             }
@@ -144,7 +144,7 @@ class Setting extends Base
         if (Request::has('limit')) {
             $limit = Request::post("limit");
             if ($limit != '') {
-                $info = Config::name('nav')->paginate($limit);
+                $info = Config::name('nav')->order('id','desc')->paginate($limit);
             } else {
                 return $this->create_return([], 201, 'error', 0, 'json');
             }

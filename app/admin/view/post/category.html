@@ -42,10 +42,9 @@
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'id', title: 'ID',align: 'center'}
-        ,{field: 'category', title: '分类名'}
+        {field: 'category', title: '分类名称'}
+        ,{field: 'category', title: '主分类',width: 130,align: 'center',sort: true}
         ,{field: 'sort_id', title: '排序',sort: true,align: 'center'}
-        ,{field: 'status', title: '状态',width: 130,align: 'center',sort: true}
         ,{title: '操作',align:'center',toolbar:'#rightbar',width: 230}
       ]]
       ,parseData: function(res){ //res 即为原始返回的数据

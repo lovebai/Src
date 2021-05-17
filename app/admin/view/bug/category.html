@@ -42,11 +42,9 @@
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'title', title: '网站名称',align: 'center'}
-        ,{field: 'description', title: '网站描述'}
-        ,{field: 'url', title: '网站链接', align: 'center'}
+        {field: 'category', title: '分类名称',align: 'center'}
+        ,{field: 'category', title: '主分类',align: 'center'}
         ,{field: 'sort_id', title: '排序',sort: true,align: 'center'}
-        ,{field: 'status', title: '状态',width: 130,align: 'center',sort: true}
         ,{title: '操作',align:'center',toolbar:'#rightbar',width: 230}
       ]]
       ,parseData: function(res){ //res 即为原始返回的数据

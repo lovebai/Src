@@ -24,7 +24,7 @@ class Admin extends Base
     public function datalist(){
         $limit=Request::post("limit");
         if($limit!=''){
-            $bugList=Admins::name('admin')->paginate($limit);
+            $bugList=Admins::name('admin')->order('id','desc')->paginate($limit);
         }else{
             return $this->create_return([],201,'error',0,'json');
         }

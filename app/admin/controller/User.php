@@ -24,7 +24,7 @@ class User extends Base
     public function datalist(){
         $limit=Request::post("limit");
         if($limit!=''){
-            $bugList=Users::name('user')->paginate($limit);
+            $bugList=Users::name('user')->order('id','desc')->paginate($limit);
         }else{
             return $this->create_return([],201,'error',0,'json');
         }
