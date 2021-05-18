@@ -11,4 +11,5 @@ class Index
     {
         return View::fetch("/index");
     }
+
 }

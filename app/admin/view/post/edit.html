@@ -38,12 +38,9 @@ layui-this
         <label class="layui-form-label">文章分类：</label>
         <div class="layui-input-inline">
           <select name="type" lay-verify="required">
-            <option value=""></option>
-            <option value="0">北京</option>
-            <option value="1">上海</option>
-            <option value="2">广州</option>
-            <option value="3">深圳</option>
-            <option value="4">杭州</option>
+            {foreach $type as $key=>$obj}
+            <option value="{$obj.id}" {if $post.type==$obj.id} selected {/if}>{$obj.category}</option>
+            {/foreach}
           </select>
         </div>
         <label class="layui-form-label">文章密码:</label>

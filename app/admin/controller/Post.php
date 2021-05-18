@@ -41,7 +41,6 @@ class Post extends Base
                 return $this->create_return([],201,'error',0,'json');
             }
             $count=Posts::name('posts')->select()->count();
-            $list['type']=Db::name('postcg')->paginate();
 
             return $this->create_return($list,200,'success',$count,'json');
         }else{
@@ -54,9 +53,11 @@ class Post extends Base
         if(Request::has('id')&&!empty(Request::param())&&Request::param('id')!=''){
             $id=Request::param('id');
             $posts=Posts::name('posts')->where('gid',$id)->find();
+            $type=Db::name('postcg')->paginate();
             if($posts){
                 return View::fetch('postsee',[
-                    'post'=>$posts
+                    'post'=>$posts,
+                    'type'=>$type
                 ]);
             }else{
                 return $this->create_return([],203,'获取失败！',0,'json');
@@ -80,8 +81,11 @@ class Post extends Base
         }else {
             if (Request::get('id') && Request::has('id')) {
                 $post = Posts::name('posts')->where('gid', Request::get('id'))->find();
+
+                $type=Db::name('postcg')->paginate();
                 return View::fetch('edit', [
                     'post' => $post,
+                    'type' => $type,
                     'hide' => $post->getData('hide')
                 ]);
             } else {
