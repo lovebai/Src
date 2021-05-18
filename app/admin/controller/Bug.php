@@ -52,10 +52,17 @@ class Bug extends Base
     }
 
     public function category(){
-        if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
+//        if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
+        if(!empty(Request::param())&&Request::has('limit')){
             $limit=Request::post("limit");
             if($limit!=''){
-                $list=Bugb::name('bugcg')->paginate($limit);
+                $list=Bugb::name('bugcg')->paginate($limit)->each(function ($item,$key){
+//
+//                    $aa=Bugb::name('bugcg')->where('u_id',$item['u_id'])->where('e_id',$item['u_id'])->find();
+//                    $item['test']=$aa;
+//
+//                    return $item['test'];
+                });
             }else{
                 return $this->create_return(false,201,'error',0,'json');
             }
@@ -64,6 +71,23 @@ class Bug extends Base
             return $this->create_return($list,200,'success',$count,'json');
         }else{
             return View::fetch('category');
+        }
+    }
+
+    public function addcategory(){
+        if(Request::isAjax()&&Request::has('category')){
+            $data=Request::param();
+
+            if(Bugb::name('bugcg')->insert($data)){
+                return $this->create_return(true,200,'恭喜您分类添加成功了',1,'json');
+            }else{
+                return $this->create_return(false,201,'error',0,'json');
+            }
+        }else{
+            $list=Bugb::name('bugcg')->where('is','y')->select();
+            return View::fetch('category_add',[
+                'sort'=>$list
+            ]);
         }
     }
 

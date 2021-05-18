@@ -1,0 +1,68 @@
+{load file="__LU__/css/layui.css" /}
+{load file="__LU__/layui.js" /}
+<div class="layui-card">
+    <div class="layui-card-body">
+        <form class="layui-form layui-form-pane" action="" xmlns="http://www.w3.org/1999/html" id="form">
+            <div class="layui-form-item"></div>
+            <div class="layui-form-item layui-hide">
+                <label class="layui-form-label">ID：</label>
+                <div class="layui-input-block">
+                  <input type="text"  name="id" autocomplete="off" value="{$data.id}" class="layui-input" required  lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">分类名称：</label>
+                <div class="layui-input-block">
+                    <input type="text" placeholder="请输入分类名称" value="{$data.category}" name="category" autocomplete="off" class="layui-input" required  lay-verify="required">
+                </div>
+            </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    //Demo
+    layui.use(['form','layer'], function(){
+        const form = layui.form;
+        const layer=layui.layer;
+        const $=layui.$;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            // console.log(data.field)
+            $.ajax({
+                url:'{:url("post/editcategory")}',
+                type:'post',
+                data:data.field,
+                success:(res)=>{
+                    if(res.code==200){
+                        layer.msg(res.msg,{
+                            icon: 6,
+                            time: 1000
+                        },()=>{
+                            location.reload();
+                        })
+                    }else{
+                        layer.msg("Error:"+res.msg,{
+                            icon: 5,
+                            time: 1000
+                        })
+                        return false
+                    }
+                }
+
+            })
+            return false;
+        });
+
+    });
+</script>
