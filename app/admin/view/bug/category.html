@@ -42,8 +42,8 @@
       ,method:'post'
       ,limit:11
       ,cols: [[ //表头
-        {field: 'category', title: '分类名称',align: 'center'}
-        ,{field: 'test', title: '主分类',align: 'center'}
+        {field: 'id', title: 'ID',align: 'center',sort:true,width:'20%'}
+        ,{field: 'category', title: '分类名称',align: 'center'}
         ,{title: '操作',align:'center',toolbar:'#rightbar',width: 230}
       ]]
       ,parseData: function(res){ //res 即为原始返回的数据
@@ -93,8 +93,8 @@
             type: 2,
             title:'编辑链接',
             maxmin:true,
-            area: ['50%', '60%'], //宽高
-            content: '{:url("setting/editlink")}?id_edit='+obj.data.id,
+            area: ['30%', '40%'], //宽高
+            content: '{:url("bug/editcategory")}?edit_id='+obj.data.id,
             cancel:()=>{
               //重载表格
               table.reload('table')
@@ -102,11 +102,11 @@
           });
           break;
         case 'del':
-          layer.confirm('您确定要删除<span style="color: #fa0c0c;font-weight: 700;">'+obj.data.title+'</span>吗？',
+          layer.confirm('您确定要删除<span style="color: #fa0c0c;font-weight: 700;">'+obj.data.category+'</span>吗？',
                   {btn:['确认删除','取消删除']},
                   ()=>{
                     $.ajax({
-                      url:'{:url("setting/dellink")}',
+                      url:'{:url("bug/delcategory")}',
                       method: 'post',
                       data: {
                         id:obj.data.id
@@ -136,7 +136,11 @@
           break;
       }
     });
-
+    layer.alert('注意：红色字体的是顶级分类哦！', {
+      icon: 1,
+      time:1800,
+      closeBtn:false
+    })
   });
 </script>
 {/block}
