@@ -11,5 +11,9 @@ class Index
     {
         return View::fetch("/index");
     }
+    public function abc()
+    {
+        return View::fetch("/abc");
+    }
 
 }
