@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>后台管理中心</title>
   {load file="__LU__/css/layui.css" /}
+  {load file="__CSS__/admin.index.css" /}
+  {block name="css"}{/block}
   <style>
     /* 移动端 */
     @media screen and (max-width: 768px) {
@@ -157,6 +159,10 @@
     <!-- 内容主体区域 -->
     {block name="main"}{/block}
   </div>
+
+  <!-- 辅助元素，一般用于移动设备下遮罩 -->
+  <div class="layadmin-body-shade" layadmin-event="shade"></div>
+</div>
 
 <!--  <div class="layui-footer">-->
 <!--     底部固定区域-->
