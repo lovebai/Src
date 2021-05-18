@@ -36,7 +36,11 @@ class Post extends Base
         if(!empty(Request::param())&&Request::isAjax()&&Request::has('limit')){
             $limit=Request::post("limit");
             if($limit!=''){
-                $list=Posts::name('posts')->order('gid','desc')->paginate($limit);
+                $list=Posts::name('posts')->order('gid','desc')->paginate($limit)->each(function ($item){
+                    $aa=Posts::name('postcg')->where('id',$item['type'])->find();
+                    $item['type'] = $aa['category'];
+                    return $item;
+                });
             }else{
                 return $this->create_return([],201,'error',0,'json');
             }
