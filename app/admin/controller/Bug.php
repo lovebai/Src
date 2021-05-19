@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 
 
+use app\admin\model\Posts;
 use think\facade\Db;
 use think\facade\Request;
 use think\facade\View;
@@ -51,19 +52,52 @@ class Bug extends Base
     }
 
     public function edit(){
-        if(Request::has('id')){
-            $info=Bugb::name('bug')->where('gid',Request::get('id'))->find();
-            $type=Bugb::name('bugcg')->paginate();
-            $file=Db::name('attachment')->where('gid',$info['gid'])->find();
-            return View::fetch('bugedit',[
-                'data'=>$info,
-                'file'=>$file,
-                'type'=>$type,
-                'status'=>$info->getData('status'),
-                'grade'=>$info->getData('grade')
-            ]);
-        }else{
-            return 'error';
+        $post=Request::param(['gid','title','author','type','grade','status','content']);
+        if($post!=''&&!empty($post)&&Request::isAjax()){
+            $file = Posts::name('attachment')->where('gid', $post['gid'])->find();
+            $files = array(
+                'gid' => $post['gid'],
+                'filename' => $post['title'],
+                'filepath' => Request::post('file'),
+                'uptime' => date("Y-m-d G:i:s", time())
+            );
+            if ($file) {
+                if (Request::post('file')!= $file['filepath']) {
+                    if(Request::post('file')!=''){
+                        Posts::name('attachment')->where('gid', $post['gid'])->save($files);
+                    }
+                }
+            }else{
+                if(Request::post('file')!='') {
+                    Posts::name('attachment')->where('gid', $post['gid'])->insert($files);
+                }
+            }
+
+            if(Request::post('file')==''){
+                $post['attach']=0;
+            }else{
+                $post['attach']=1;
+            }
+            if(Posts::name('bug')->where('gid',$post['gid'])->save($post)){
+                return $this->create_return(true,200,'编辑成功',1,'json');
+            }else{
+                return $this->create_return(false,201,'编辑失败,可能未做修改',0,'json');
+            }
+        }else {
+            if (Request::has('id')) {
+                $info = Bugb::name('bug')->where('gid', Request::get('id'))->find();
+                $type = Bugb::name('bugcg')->paginate();
+                $file = Db::name('attachment')->where('gid', $info['gid'])->find();
+                return View::fetch('bugedit', [
+                    'data' => $info,
+                    'file' => $file,
+                    'type' => $type,
+                    'status' => $info->getData('status'),
+                    'grade' => $info->getData('grade')
+                ]);
+            } else {
+                return redirect(url('bug/index'));
+            }
         }
     }
 
@@ -160,6 +194,18 @@ class Bug extends Base
             }
         }else{
             return $this->create_return([],201,'提交参数有误！',0,'json');
+        }
+    }
+
+    //删除附件
+    public function delfile(){
+
+        if(Request::has('id')&&Request::post('id')!=''){
+            if(Posts::name('attachment')->where('gid', Request::post('id'))->delete()){
+                return $this->create_return(true,200,'删除成功',0,'json');
+            }else{
+                return $this->create_return(true,201,'删除失败',0,'json');
+            }
         }
     }
 

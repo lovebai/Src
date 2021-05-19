@@ -14,12 +14,13 @@
         <label class="layui-form-label">标题：</label>
         <div class="layui-input-block">
           <input type="text" name="title"  required  lay-verify="required" value="{$data.title}" autocomplete="off" class="layui-input">
+          <input type="text" name="gid" id="gid" required  lay-verify="required" value="{$data.gid}" autocomplete="off" class="layui-input layui-hide">
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">提交者：</label>
         <div class="layui-input-block">
-          <input type="text" name="title"  required  lay-verify="required" value="{$data.author}" autocomplete="off" class="layui-input">
+          <input type="text" name="author"  required  lay-verify="required" value="{$data.author}" autocomplete="off" class="layui-input">
         </div>
       </div>
       <div class="layui-form-item">
@@ -57,25 +58,35 @@
         <div class="layui-form-item">
         <label class="layui-form-label">附件：</label>
         <div class="layui-input-inline">
-          {if $file.filepath!=''}
-          <a href="{$file.filepath}"  class="layui-btn layui-bg-blue" style="width: 100%" _target="block" >附件下载</a>
-          {else/}
-          <label class="layui-btn layui-bg-red" style="width: 100%">未上传附件</label>
-          {/if}
+          <input type="text" disabled id="path" name="file" value="{$file.filepath}" class="layui-input">
         </div>
+
+          <div class="layui-input-inline">
+            {if $file.filepath!=''}
+            <a href="{$file.filepath}"  class="layui-btn layui-bg-blue" style="width: 100%" _target="block" >附件下载</a>
+            {else/}
+            <label id="upload" class="layui-btn layui-bg-red" style="width: 100%">未上传附件</label>
+            {/if}
+          </div>
+          {if $file.filepath!=''}
+          <label id="del" class="layui-btn">删除附件</label>
+          {else/}
+          <label id="up" class="layui-btn">是否上传</label>
+          {/if}
+
       </div>
 
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述：</label>
         <div class="layui-input-block">
-          <div name="content" value="" id="content" class="layui-textarea">{$data.content|raw}</div>
+          <div name="content" style="height: 500px" value="" id="content" class="layui-textarea">{$data.content|raw}</div>
         </div>
       </div>
 
       <div class="layui-form-item">
         <div class="layui-input-block">
           <button class="layui-btn layui-col-md9" lay-submit lay-filter="formDemo">发布</button>
-          <!--          <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
 
@@ -90,12 +101,15 @@
 {block name="js"}
 <script>
   //Demo
-  layui.use(['form','laydate'], function(){
+  layui.use(['form','laydate','layer','upload'], function(){
     let form = layui.form;
     let laydate = layui.laydate;
     let $ = layui.$;
+    let layer = layui.layer;
+    let upload = layui.upload;
 
     let content=null
+    let fpath=''
 
     layui.extend({
       tinymce: '../../static/tinymce/tinymce'
@@ -120,8 +134,9 @@
     form.on('submit(formDemo)', function(data){
       // layer.msg(JSON.stringify(data.field));
       data.field['content']=content.getContent()
+      data.field['file']=fpath
       $.ajax({
-        url:'{:url("post/edit")}',
+        url:'{:url("bug/edit")}',
         type:'post',
         data:data.field,
         success:(res)=>{
@@ -136,7 +151,7 @@
                       ()=>{
                         location.reload()
                       },()=>{
-                        location.href='{:url("post/edit")}'
+                        location.href='{:url("bug/edit")}'
                       }
               )
               // location.reload();
@@ -153,6 +168,59 @@
       })
       return false;
     });
+
+    //----------后期开发----------
+    $("#del").click(()=>{
+      $.ajax({
+        url:'{:url("bug/delfile")}',
+        method: 'post',
+        data:{
+          id:$("#gid").val()
+        },
+        success:(res)=>{
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              // location.reload();
+              $("#path").val('')
+            })
+          }else{
+            layer.msg("code:"+res.code+"msg:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+          }
+        }
+      })
+    })
+    //upload
+      //图片上传
+      upload.render({
+        elem: '#up' //绑定元素
+        ,url: '{:url("upload/bugfile")}' //上传接口,
+        ,method:'post'
+        ,accept:'file'
+        ,exts: 'zip|rar|7z|jpg|png|doc|pdf|docx'
+        ,size:6032
+        ,data:{
+          enctype:'multipart/form-data'
+        }
+        ,done: function(res){
+          //上传完毕回调
+          //     console.log(res.data.src)
+          layer.msg('恭喜上传成功',{
+            icon:6
+          })
+          $("#path").val('/uploads/'+res.data.src)
+          fpath='/uploads/'+res.data.src
+        }
+        ,error: function(){
+          //请求异常回调
+        }
+      });
+
   });
 </script>
 
