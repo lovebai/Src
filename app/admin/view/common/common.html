@@ -19,7 +19,7 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header">
+  <div class="layui-header layui-bg-blue">
     <div class="layui-logo layui-hide-xs layui-bg-black">
       <img src="__IMG__/logo.svg" width="36px"/> <span style="color: #2d90d9;font: icon;font-weight: 700;">后台管理中心</span>
     </div>
@@ -55,8 +55,8 @@
           tester
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="">个人资料</a></dd>
-          <dd><a href="">退出系统</a></dd>
+          <dd><a href="javascript:;" id="preference">个人资料</a></dd>
+          <dd><a href="javascript:;" id="logout">退出系统</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
@@ -68,9 +68,9 @@
   </div>
 
   <div class="layui-side layui-bg-black site-mobile">
-    <div class="layui-side-scroll">
+    <div class="layui-side-scroll ">
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-      <ul class="layui-nav layui-nav-tree" lay-filter="test" lay-shrink="all">
+      <ul class="layui-nav  layui-nav-tree" lay-filter="test" lay-shrink="all">
         <li class="layui-nav-item {block name='index'}{/block}"><a href="{:url('index/index')}"><i class="layui-icon layui-icon-home"></i> 控制台</a></li>
         <li class="layui-nav-item layui-nav-itemed">
           <a class="" href="javascript:;"><i class="layui-icon layui-icon-senior"></i> 漏洞管理</a>
@@ -143,9 +143,10 @@
           <a href="javascript:;"><i class="layui-icon layui-icon-set-fill"></i> 其他设置</a>
           <dl class="layui-nav-child">
 
-            <dd class="{block name='set'}{/block}"><a href="{:url('conf/set')}"><i class="layui-icon layui-icon-menu-fill"></i> 通知设置</a></dd>
-            <dd class="{block name=''}{/block}"><a href="{:url('setting/')}"><i class="layui-icon layui-icon-set-sm"></i> 短信配置</a></dd>
-            <dd class="{block name=''}{/block}"><a href="{:url('setting/')}"><i class="layui-icon layui-icon-link"></i> 邮箱配置</a></dd>
+            <!--暂时未想到要开发什么功能，以后在用吧  -->
+<!--            <dd class="{block name='set'}{/block}"><a href="{:url('conf/set')}"><i class="layui-icon layui-icon-menu-fill"></i> 通知设置</a></dd>-->
+            <dd class="{block name='sms'}{/block}"><a href="{:url('conf/sms')}"><i class="layui-icon layui-icon-set-sm"></i> 短信配置</a></dd>
+            <dd class="{block name='mail'}{/block}"><a href="{:url('conf/mail')}"><i class="layui-icon layui-icon-link"></i> 邮箱配置</a></dd>
           </dl>
         </li>
 
@@ -197,6 +198,28 @@
         location.reload()
       }
     });
+
+    //个人资料
+    $("#preference").click(()=>{
+      layer.open({
+        content: 'adfasdf'
+      })
+    })
+
+    //退出
+    $("#logout").click(()=>{
+      layer.confirm('您确定要退出吗？', {
+        btn: ['是的','不退'] //按钮
+      }, function(){
+        layer.msg('已退出', {icon: 1});
+        //加事件
+
+      }, function(){
+        layer.msg('您阁这和我闹着玩呢！', {
+          time: 5000, //20s后自动关闭
+        });
+      });
+    })
 
   });
 </script>

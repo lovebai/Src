@@ -1,0 +1,161 @@
+{extend name="common/common"}
+
+{block name="sms"}
+layui-this
+{/block}
+
+{block name="main"}
+<blockquote class="layui-elem-quote">
+  <h3>短信设置</h3>
+</blockquote>
+
+<div class="layui-card" >
+  <div class="layui-card-body">
+
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md6">
+        <div class="layui-panel">
+          <div class="layui-card">
+            <div class="layui-card-header">信息配置</div>
+            <div class="layui-card-body">
+
+              <div class="layui-form">
+              <div class="layui-form-item">
+                <label class="layui-form-label">短信：</label>
+                <div class="layui-input-inline">
+                  <label class="layui-input">
+                    <input type="checkbox" name="sms" lay-skin="switch" lay-text="开启|关闭" lay-filter="filter" {if 1== 1 } checked {/if}>
+                  </label>
+                </div>
+                <div class="layui-form-mid layui-word-aux">是否开启短信发送功能</div>
+              </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">短信签名：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="sms_key" required  lay-verify="required" placeholder="请短信签名如：【移动云】" autocomplete="off" class="layui-input" value="">
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">短信平台：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="sms_id" required  lay-verify="required" placeholder="请短信平台链接" autocomplete="off" class="layui-input" value="">
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">UID：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="sms_id" required  lay-verify="required" placeholder="请短信平台id" autocomplete="off" class="layui-input" value="">
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">KEY：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="sms_key" required  lay-verify="required" placeholder="请短信平台提供的密钥" autocomplete="off" class="layui-input" value="">
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-col-md6">
+        <div class="layui-panel">
+          <div class="layui-card">
+            <div class="layui-card-header">发件测试</div>
+            <div class="layui-card-body">
+              <div class="layui-form">
+                <div class="layui-form-item">
+                </div>
+
+                <div class="layui-form-item">
+                  <label class="layui-form-label">接收手机：</label>
+                  <div class="layui-input-block">
+                    <input type="text" name="phone" required  lay-verify="required" placeholder="请输入要接受短信的手机号" autocomplete="off" class="layui-input" value="">
+                  </div>
+                </div>
+
+                <div class="layui-form-item layui-form-text">
+                  <label class="layui-form-label">统计代码：</label>
+                  <div class="layui-input-block">
+                    <textarea name="content" style="height: 183px" placeholder="请再此输入您要发送的内容" class="layui-textarea"></textarea>
+                  </div>
+                </div>
+
+                <div class="layui-form-item">
+                  <div class="layui-input-block">
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">发送</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="layui-card">
+      <div class="layui-card-header layui-font-16">其他说明</div>
+      <div class="layui-card-body">
+        <label>接口需调用第三方平台，如中国移动提供的【中国移动能力开放商店】的短信通知/短信验证码服务以及【OneNET -中国移动物联网开放平台】短信息服务</label><br>
+        <label>【中国移动能力开放商店】:<a style="color: #127ff3" href="https://open.10086.cn/#/capability/4" title="中国移动能力开放商店" >https://open.10086.cn/#/capability/4</a> </label><br>
+        <label>【OneNET -中国移动物联网开放平台】:<a style="color: #127ff3"  href="https://open.iot.10086.cn/productservice/sms/" title="中国移动物联网开放平台" >https://open.iot.10086.cn/productservice/sms/</a></label>
+      </div>
+    </div>
+</div>
+{/block}
+{block name="js"}
+<script>
+
+
+
+  layui.use(['form','upload'], function(){
+    const form = layui.form;
+    const $ = layui.$;
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+      // layer.msg(JSON.stringify(data.field));
+      // console.log(JSON.stringify(data.field))
+      $.ajax({
+        url:'{:url("setting/index")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              location.reload();
+            })
+          }else{
+            layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
+      return false
+    });
+
+
+  });
+</script>
+{/block}

@@ -12,17 +12,17 @@ class Conf extends Base
 {
 
     //通知页
-    public function set(){
-
+    public function sms(){
         $info=Option::name('config')->where('id',1)->find();
-        return View::fetch('set',[
+        return View::fetch('sms',[
             'info'=>$info
         ]);
     }
 
 
-    public function set0(){
-
+    public function mail(){
+        return View::fetch('mail',[
+        ]);
     }
     //通知页
     public function set1(){
