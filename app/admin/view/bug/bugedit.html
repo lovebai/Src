@@ -1,0 +1,150 @@
+{extend name="common/common"}
+
+
+{block name="main"}
+<blockquote class="layui-elem-quote">
+  <h3>编辑漏洞 - {$data.title}</h3>
+</blockquote>
+
+<div class="layui-card">
+  <div class="layui-card-body">
+    <form class="layui-form layui-form-pane">
+      <div class="layui-form-item"></div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题：</label>
+        <div class="layui-input-block">
+          <input type="text" name="title"  required  lay-verify="required" value="{$data.title}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">提交者：</label>
+        <div class="layui-input-block">
+          <input type="text" name="title"  required  lay-verify="required" value="{$data.author}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">分类：</label>
+        <div class="layui-input-block">
+          <select name="type" lay-verify="required">
+            {foreach $type as $key=>$obj}
+            <option value="{$obj.id}" {if $post.type==$obj.id} selected {/if}>{$obj.category}</option>
+            {/foreach}
+          </select>
+<!--          <input type="text" name="title"  required  lay-verify="required" value="{$type}" autocomplete="off" class="layui-input">-->
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">等级：</label>
+        <div class="layui-input-block">
+          <input type="text" name="title"  required  lay-verify="required" value="{$data.grade}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">状态：</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required  lay-verify="required" value="{$data.status}" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+        <div class="layui-form-item">
+        <label class="layui-form-label">附件：</label>
+        <div class="layui-input-inline">
+          {if $file.filepath!=''}
+          <a href="{$file.filepath}"  class="layui-btn layui-bg-blue" style="width: 100%" _target="block" >附件下载</a>
+          {else/}
+          <label class="layui-btn layui-bg-red" style="width: 100%">未上传附件</label>
+          {/if}
+        </div>
+      </div>
+
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">描述：</label>
+        <div class="layui-input-block">
+          <div name="desc" value="" class="layui-textarea">{$data.content|raw}</div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-col-md9" lay-submit lay-filter="formDemo">发布</button>
+          <!--          <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+
+{/block}
+
+
+{block name="js"}
+<script>
+  //Demo
+  layui.use(['form','laydate'], function(){
+    let form = layui.form;
+    let laydate = layui.laydate;
+    let $ = layui.$;
+
+    let content=null
+
+    layui.extend({
+      tinymce: '../../static/tinymce/tinymce'
+    }).use(['tinymce'], function () {
+      let t = layui.tinymce
+
+      t.render({
+        elem: "#content",
+        menubar: false,
+        branding: false,
+      },(opt, edit)=>{
+      });
+      content=t.get('#content')
+    })
+
+    laydate.render({
+      elem: '#date' //指定元素
+      ,type: 'datetime'
+    });
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+      // layer.msg(JSON.stringify(data.field));
+      data.field['content']=content.getContent()
+      $.ajax({
+        url:'{:url("post/edit")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          console.log(res)
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              layer.confirm('是否继续编辑？',
+                      {btn:['是','否']},
+                      ()=>{
+                        location.reload()
+                      },()=>{
+                        location.href='{:url("post/edit")}'
+                      }
+              )
+              // location.reload();
+            })
+          }else{
+            layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
+      return false;
+    });
+  });
+</script>
+
+{/block}

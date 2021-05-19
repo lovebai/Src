@@ -5,6 +5,7 @@ namespace app\admin\controller;
 
 
 
+use think\facade\Db;
 use think\facade\Request;
 use think\facade\View;
 use app\admin\model\Bug as Bugb;
@@ -34,12 +35,34 @@ class Bug extends Base
     }
 
     public function see(){
+        if(Request::has('id')){
+            $info=Bugb::name('bug')->where('gid',Request::get('id'))->find();
+            $type=Bugb::name('bugcg')->where('id',$info['type'])->find();
+            $file=Db::name('attachment')->where('gid',$info['gid'])->find();
+            return View::fetch('bugsee',[
+                'data'=>$info,
+                'type'=>$type['category'],
+                'file'=>$file
+            ]);
+        }else{
+            return 'error';
+        }
 
-        return View::fetch('bugsee');
     }
 
     public function edit(){
-
+        if(Request::has('id')){
+            $info=Bugb::name('bug')->where('gid',Request::get('id'))->find();
+            $type=Bugb::name('bugcg')->where('id',$info['type'])->find();
+            $file=Db::name('attachment')->where('gid',$info['gid'])->find();
+            return View::fetch('bugedit',[
+                'data'=>$info,
+                'type'=>$type,
+                'file'=>$file
+            ]);
+        }else{
+            return 'error';
+        }
     }
 
     public function del(){
