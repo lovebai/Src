@@ -27,7 +27,7 @@
         <div class="layui-input-block">
           <select name="type" lay-verify="required">
             {foreach $type as $key=>$obj}
-            <option value="{$obj.id}" {if $post.type==$obj.id} selected {/if}>{$obj.category}</option>
+            <option value="{$obj.id}" {if $data.type==$obj.id} selected {/if}>{$obj.category}</option>
             {/foreach}
           </select>
 <!--          <input type="text" name="title"  required  lay-verify="required" value="{$type}" autocomplete="off" class="layui-input">-->
@@ -36,13 +36,22 @@
       <div class="layui-form-item">
         <label class="layui-form-label">等级：</label>
         <div class="layui-input-block">
-          <input type="text" name="title"  required  lay-verify="required" value="{$data.grade}" autocomplete="off" class="layui-input">
+          <select name="grade" lay-verify="required">
+          <option value="0" {if $grade==0}selected{/if}>低危</option>
+          <option value="1" {if $grade==1}selected{/if}>中危</option>
+          <option value="2" {if $grade==2}selected{/if}>高危</option>
+          <option value="3" {if $grade==3}selected{/if}>严重</option>
+          </select>
         </div>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">状态：</label>
         <div class="layui-input-block">
-          <input type="text" name="title" required  lay-verify="required" value="{$data.status}" autocomplete="off" class="layui-input">
+          <label class="layui-input">
+            <input type="radio" name="status" value="0" title="审核中" {if $status==0}checked{/if}>
+            <input type="radio" name="status" value="-1" title="未通过" {if $status==-1}checked{/if}>
+            <input type="radio" name="status" value="1" title="已通过" {if $status==1}checked{/if}>
+          </label>
         </div>
       </div>
         <div class="layui-form-item">
@@ -59,7 +68,7 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述：</label>
         <div class="layui-input-block">
-          <div name="desc" value="" class="layui-textarea">{$data.content|raw}</div>
+          <div name="content" value="" id="content" class="layui-textarea">{$data.content|raw}</div>
         </div>
       </div>
 

@@ -53,12 +53,14 @@ class Bug extends Base
     public function edit(){
         if(Request::has('id')){
             $info=Bugb::name('bug')->where('gid',Request::get('id'))->find();
-            $type=Bugb::name('bugcg')->where('id',$info['type'])->find();
+            $type=Bugb::name('bugcg')->paginate();
             $file=Db::name('attachment')->where('gid',$info['gid'])->find();
             return View::fetch('bugedit',[
                 'data'=>$info,
+                'file'=>$file,
                 'type'=>$type,
-                'file'=>$file
+                'status'=>$info->getData('status'),
+                'grade'=>$info->getData('grade')
             ]);
         }else{
             return 'error';

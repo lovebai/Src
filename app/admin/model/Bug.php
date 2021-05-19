@@ -7,7 +7,7 @@ class Bug extends Model
 {
     public function getStatusAttr($value): string
     {
-        $status = [-1=>'禁用',1=>'正常',0=>'待审核'];
+        $status = [-1=>'未通过',1=>'已审核',0=>'待审核'];
         return $status[$value];
     }
 
