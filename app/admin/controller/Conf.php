@@ -15,7 +15,7 @@ class Conf extends Base
     //通知页
     public function sms(){
         $data=Request::param(['name','uid','key','v3','status']);
-        if(!empty($data)&&$data!=''){
+        if(!empty($data)&&$data!=''&&Request::isAjax()){
             if(Option::name('option')->where('id',1)->update($data)){
                return $this->create_return($data,200,'设置成功',1,'json');
             }else{
@@ -33,7 +33,7 @@ class Conf extends Base
 
     public function mail(){
         $data=Request::param(['name','uid','key','v3','status']);
-        if(!empty($data)&&$data!=''){
+        if(!empty($data)&&$data!=''&&Request::isAjax()){
             if(Option::name('option')->where('id',2)->update($data)){
                 return $this->create_return($data,200,'设置成功',1,'json');
             }else{

@@ -37,6 +37,7 @@ class User extends Base
         $id=Request::get('id');
         if($id!=''){
             $info=Users::name('user')->where('id',$id)->find();
+            $info['password']='';
             return View::fetch('usersee',[
                 'info'=>$info
             ]);
@@ -51,6 +52,7 @@ class User extends Base
         $id=Request::get('id');
         if($id!=''){
             $info=Users::name('user')->where('id',$id)->find();
+            $info['password']='';
 
             return View::fetch('useredit',[
                 'info'=>$info,
@@ -85,6 +87,7 @@ class User extends Base
             }catch (ErrorException $e){
                 return $this->create_return([],400,'Error！',1,'json');
             }
+            $info['password']=$this->passUser($info['password']);
 
             if(Users::name('user')->where('id',$info['id'])->strict(false)->save($info)){
 
@@ -128,6 +131,7 @@ class User extends Base
                 return $this->create_return([],400,'Error！',1,'json');
             }
             $info['create_date']=date("Y-m-d G:i:s",time());
+            $info['password']=$this->passUser($info['password']);
             if(Users::name('user')->insert($info)){
 
                 return $this->create_return([],200,'恭喜您用户添加成功！',1,'json');

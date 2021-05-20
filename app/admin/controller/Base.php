@@ -14,7 +14,7 @@ abstract class Base
 {
 
     /**
-     * @param $data  数据
+     * @param $data
      * @param int $code  状态码
      * @param string $msg 提示
      * @param int $count 提示
@@ -33,6 +33,23 @@ abstract class Base
         //返回api
         return Response::create($result,$type);
 
+    }
+
+
+    /**
+     * @param $pass
+     * @return string
+     */
+    protected function passAdmin($pass){
+        return sha1(md5($pass).'xiaobai');
+    }
+
+    /**
+     * @param $pass
+     * @return string
+     */
+    protected function passUser($pass){
+        return md5($pass.'bai');
     }
 
 }

@@ -47,6 +47,7 @@ class Admin extends Base
             }catch (ErrorException $e){
                 return $this->create_return([],400,'Error！',0,'json');
             }
+            $info['password']=$this->passAdmin($info['password']);
             if(Admins::name('admin')->insert($info)){
 
                 return $this->create_return([],200,'恭喜您管理员添加成功！',1,'json');
@@ -65,6 +66,7 @@ class Admin extends Base
         $id=Request::get('id');
         if($id!=''&&!empty($id)&&Request::has('id')){
             $info=Admins::name('admin')->where('id',$id)->find();
+            $info['password']='';
 
             return View::fetch('adminedit',[
                 'info'=>$info,
@@ -90,6 +92,7 @@ class Admin extends Base
             }catch (ErrorException $e){
                 return $this->create_return([],400,'Error！',1,'json');
             }
+            $info['password']=$this->passAdmin($info['password']);
             if(Admins::name('admin')->where('id',$info['id'])->save($info)){
 
                 return $this->create_return([],200,'恭喜您修改成功了',1,'json');
