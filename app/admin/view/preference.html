@@ -1,0 +1,170 @@
+{load file="__LU__/css/layui.css" /}
+{load file="__LU__/layui.js" /}
+<div class="layui-card">
+  <div class="layui-card-body">
+    <form class="layui-form layui-form-pane" action="" xmlns="http://www.w3.org/1999/html" id="form">
+      <div class="layui-form-item"></div>
+      <div class="layui-form-item layui-hide">
+        <label class="layui-form-label">ID：</label>
+        <div class="layui-input-inline">
+          <input type="text" value="{$info.id}" name="id" autocomplete="off" class="layui-input" required  lay-verify="required">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户名：</label>
+        <div class="layui-input-block">
+          <input type="text" value="{$info.username}" name="username" autocomplete="off" class="layui-input" required  lay-verify="required|username">
+        </div>
+
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户密码：</label>
+        <div class="layui-input-block">
+          <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input">
+        </div>
+
+      </div>
+
+      <div class="layui-form-item">
+        <label class="layui-form-label">用户QQ:</label>
+        <div class="layui-input-block">
+          <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+
+      <div class="layui-form-item ">
+        <label class="layui-form-label">用户头像:</label>
+        <div class="layui-input-inline">
+          <input type="text" value="{$info.avatar}" name="avatar" id="avatar" autocomplete="off" class="layui-input" disabled>
+        </div>
+        {if $info.avatar==''}
+        <button type="button" class="layui-btn layui-input-inline" id="test1">
+          <i class="layui-icon">&#xe67c;</i>上传头像
+        </button>
+        {else/}
+        <button type="button" class="layui-btn layui-input-inline" id="test2">删除头像</button>
+        {/if}
+        <label class="layui-form-label" id="prv">预览</label>
+      </div>
+
+      <div class="layui-form-item layui-hide">
+        <label class="layui-form-label">用户状态：</label>
+        <div class="layui-input-inline">
+          <input type="checkbox" name="status" lay-skin="switch" lay-text="正常|禁用" lay-filter="filter" {if $info.status == 1 } checked {/if}>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<script>
+  //Demo
+  layui.use(['form','upload','layer'], function(){
+    const form = layui.form;
+    const upload=layui.upload;
+    const layer=layui.layer;
+    const $=layui.$;
+
+    //监听提交
+    form.on('submit(formDemo)', function(data){
+      // layer.msg(JSON.stringify(data.field));
+      console.log(data.field)
+      $.ajax({
+        url:'{:url("admin/update")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              location.reload();
+            })
+          }else{
+            layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
+      return false;
+    });
+
+    //图片上传
+    upload.render({
+      elem: '#test1' //绑定元素
+      ,url: '{:url("upload/index")}' //上传接口,
+      ,method:'post'
+      ,accept:'images'
+      ,data:{
+        enctype:'multipart/form-data'
+      }
+      ,done: function(res){
+        //上传完毕回调
+        //     console.log(res.data.src)
+        $("#avatar").val('/uploads/'+res.data.src)
+      }
+      ,error: function(){
+        //请求异常回调
+      }
+    });
+
+    //图片预览
+    $('#prv').click(()=>{
+      let avatar=$("#avatar").val()
+      if(avatar!=''){
+        layer.open({
+          type: 1,
+          title:'预览',
+          closeBtn:0,
+          time:2000,
+          skin: 'layui-layer-rim', //加上边框
+          area: ['420px', '280px'], //宽高
+          content: '<img src="'+avatar+'" width="98%" height="230px">'
+        });
+      }else{
+        layer.msg("您还未上传头像！")
+      }
+    })
+
+    $('#test2').click(()=>{
+      $("#avatar").val('')
+    })
+
+    //验证
+    form.verify({
+      username: function (value, item) { //value：表单的值、item：表单的DOM对象
+        if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+          return '用户名首尾不能出现下划线\'_\'';
+        }
+        if (/^\d+\d+\d$/.test(value)) {
+          return '用户名不能全为数字';
+        }
+        if (value.length < 3) {
+          return '用户名必须最小3位！'
+        }
+      }
+
+      //我们既支持上述函数式的方式，也支持下述数组的形式
+      //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+      , pass: [
+        /^[\S]{6,18}$/
+        , '密码必须6到18位，且不能出现空格'
+      ]
+    });
+  });
+</script>

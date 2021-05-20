@@ -21,7 +21,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户密码：</label>
         <div class="layui-input-block">
-            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" required  lay-verify="required|pass">
+            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input">
         </div>
 
     </div>
@@ -38,9 +38,13 @@
         <div class="layui-input-inline">
             <input type="text" value="{$info.avatar}" name="avatar" id="avatar" autocomplete="off" class="layui-input" disabled>
         </div>
+        {if $info.avatar==''}
         <button type="button" class="layui-btn layui-input-inline" id="test1">
-            <i class="layui-icon">&#xe67c;</i>上传图片
+            <i class="layui-icon">&#xe67c;</i>上传头像
         </button>
+        {else/}
+        <button type="button" class="layui-btn layui-input-inline" id="test2">删除头像</button>
+        {/if}
         <label class="layui-form-label" id="prv">预览</label>
     </div>
 
@@ -135,6 +139,10 @@
             }else{
                 layer.msg("您还未上传头像！")
             }
+        })
+
+        $('#test2').click(()=>{
+            $("#avatar").val('')
         })
 
         //验证

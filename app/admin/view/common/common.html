@@ -51,8 +51,7 @@
       </li>
       <li class="layui-nav-item layui-hide layui-show-md-inline-block">
         <a href="javascript:;">
-          <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg" class="layui-nav-img">
-          tester
+          <img id="avatar" src="" class="layui-nav-img"><span id="user"></span>
         </a>
         <dl class="layui-nav-child">
           <dd><a href="javascript:;" id="preference">个人资料</a></dd>
@@ -179,6 +178,15 @@
             ,util = layui.util
             ,$ = layui.$;
 
+    $.ajax({
+      url:'{:url("index/avatar")}',
+      method:'post',
+      success:(res)=>{
+        $('#avatar').attr('src',res.avatar)
+        $('#user').html(res.user)
+      }
+    })
+
     //头部事件
     util.event('lay-header-event', {
       //左侧菜单事件
@@ -203,8 +211,13 @@
     //个人资料
     $("#preference").click(()=>{
       layer.open({
-        content: 'adfasdf'
-      })
+        type: 2,
+        title: '个人资料修改',
+        shadeClose: true,
+        shade: 0.8,
+        area: ['45%', '60%'],
+        content: '{:url("index/preference")}'
+      });
     })
 
     //退出
