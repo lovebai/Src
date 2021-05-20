@@ -92,8 +92,13 @@ class Admin extends Base
             }catch (ErrorException $e){
                 return $this->create_return([],400,'Error！',1,'json');
             }
-            $info['password']=$this->passAdmin($info['password']);
-            if(Admins::name('admin')->where('id',$info['id'])->save($info)){
+            if($info['password']!=''){
+                $info['password']=$this->passAdmin($info['password']);
+            }else{
+                $data=Admins::name('admin')->where('id',$info['id'])->find();
+                $info['password']=$data['password'];
+            }
+            if(Admins::name('admin')->where('id',$info['id'])->update($info)){
 
                 return $this->create_return([],200,'恭喜您修改成功了',1,'json');
 

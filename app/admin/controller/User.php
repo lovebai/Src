@@ -87,8 +87,12 @@ class User extends Base
             }catch (ErrorException $e){
                 return $this->create_return([],400,'Error！',1,'json');
             }
-            $info['password']=$this->passUser($info['password']);
-
+            if($info['password']!=''){
+                $info['password']=$this->passAdmin($info['password']);
+            }else{
+                $data=Users::name('user')->where('id',$info['id'])->find();
+                $info['password']=$data['password'];
+            }
             if(Users::name('user')->where('id',$info['id'])->strict(false)->save($info)){
 
                 return $this->create_return([],200,'恭喜您修改成功！',1,'json');
