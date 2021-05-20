@@ -12,6 +12,7 @@ use think\Response;
  */
 abstract class Base
 {
+    protected $middleware = ['Auth'];
 
     /**
      * @param $data

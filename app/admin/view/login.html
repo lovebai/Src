@@ -17,7 +17,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">管理账号</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required  lay-verify="required|email" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" id="username" name="username" required  lay-verify="required|email" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -49,6 +49,7 @@
         var form = layui.form;
         var $ = layui.$;
         var layer = layui.layer;
+        $('#username').focus()
 
         //监听提交
         form.on('submit(formDemo)', function(data){
@@ -75,6 +76,7 @@
                             time:1300,
                             btn:'关闭'
                         })
+                        $('img').attr('src',"/captcha.html?"+Math.random())
                     }
                 }
             })
