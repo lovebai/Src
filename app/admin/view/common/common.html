@@ -19,7 +19,7 @@
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
-  <div class="layui-header layui-bg-blue">
+  <div class="layui-header">
     <div class="layui-logo layui-hide-xs layui-bg-black">
       <img src="__IMG__/logo.svg" width="36px"/> <span style="color: #2d90d9;font: icon;font-weight: 700;">后台管理中心</span>
     </div>
@@ -196,7 +196,8 @@
        ,menuRight: function(){
         layer.open({
           type: 1
-          ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+          ,title:'提示说明'
+          ,content: '<div style="padding: 15px;">小白版权所有，具体内容以后加</div>'
           ,area: ['260px', '100%']
           ,offset: 'rt' //右上角
           ,anim: 5
