@@ -23,9 +23,8 @@ layui-this
               <div class="layui-form-item">
                 <label class="layui-form-label">邮件：</label>
                 <div class="layui-input-inline">
-                  <label class="layui-input">
-                    <input type="checkbox" name="status" lay-skin="switch" lay-text="开启|关闭" lay-filter="filter" {if 1== 1 } checked {/if}>
-                  </label>
+                  <input type="radio" name="status" value="y" title="开启" {if $info.status== 'y' } checked {/if}>
+                  <input type="radio" name="status" value="n" title="关闭" {if $info.status== 'n' } checked {/if}>
                 </div>
                 <div class="layui-form-mid layui-word-aux">是否开启邮件发送功能</div>
               </div>
@@ -33,28 +32,28 @@ layui-this
                 <div class="layui-form-item">
                   <label class="layui-form-label">服务地址：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="smtp" required  lay-verify="required" placeholder="请输入smtp地址" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="name" required  lay-verify="required" placeholder="请输入smtp地址" autocomplete="off" class="layui-input" value="{$info.name}">
                   </div>
                 </div>
 
                 <div class="layui-form-item">
                   <label class="layui-form-label">服务端口：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="port" required  lay-verify="required" placeholder="请输入发件服务端口" autocomplete="off" class="layui-input" value="">
+                    <input type="number" name="v3" disabled required  lay-verify="required" placeholder="请输入发件服务端口" autocomplete="off" class="layui-input" value="{$info.v3}">
                   </div>
                 </div>
 
                 <div class="layui-form-item">
                   <label class="layui-form-label">邮箱账号：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="email_user" required  lay-verify="required" placeholder="请输入发件邮箱账号" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="uid" required  lay-verify="required|email" placeholder="请输入发件邮箱账号" autocomplete="off" class="layui-input" value="{$info.uid}">
                   </div>
                 </div>
 
                 <div class="layui-form-item">
                   <label class="layui-form-label">邮箱密码：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="email_pass" required  lay-verify="required" placeholder="请输入发件邮箱密码" autocomplete="off" class="layui-input" value="">
+                    <input type="password" name="key" required  lay-verify="required" placeholder="请输入发件邮箱密码" autocomplete="off" class="layui-input" value="{$info.key}">
                   </div>
                 </div>
 
@@ -84,14 +83,14 @@ layui-this
                 <div class="layui-form-item">
                   <label class="layui-form-label">接收邮箱：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="send_user" required  lay-verify="required" placeholder="请输入要接收邮箱账号" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="send_user" required  lay-verify="required|email" placeholder="请输入要接收邮箱账号" autocomplete="off" class="layui-input" value="">
                   </div>
                 </div>
 
                 <div class="layui-form-item layui-form-text">
                   <label class="layui-form-label">邮件内容：</label>
                   <div class="layui-input-block">
-                    <textarea name="content" style="height: 183px" placeholder="请再此输入您要发送的内容" class="layui-textarea"></textarea>
+                    <textarea name="mail_content" style="height: 183px" placeholder="请再此输入您要发送的内容" class="layui-textarea"></textarea>
                   </div>
                 </div>
 
@@ -134,7 +133,7 @@ layui-this
       // layer.msg(JSON.stringify(data.field));
       // console.log(JSON.stringify(data.field))
       $.ajax({
-        url:'{:url("setting/index")}',
+        url:'{:url("conf/mail")}',
         type:'post',
         data:data.field,
         success:(res)=>{
