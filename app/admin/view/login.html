@@ -17,7 +17,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">管理账号</label>
             <div class="layui-input-block">
-                <input type="text" name="title" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                <input type="text" name="username" required  lay-verify="required|email" placeholder="请输入用户名" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -30,7 +30,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">验证码</label>
             <div class="layui-input-inline">
-                <input type="text" name="title" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input verity">
+                <input type="text" name="code" required  lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input verity">
             </div>
             <label class="captcha">{:captcha_img()}</label>
         </div>
@@ -44,5 +44,42 @@
     </div>
 </div>
 {load file="__LU__/layui.js" /}
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        var $ = layui.$;
+        var layer = layui.layer;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            // layer.msg(JSON.stringify(data.field));
+            // return false;
+            $.ajax({
+                url:'{:url("login/login")}',
+                method:'post',
+                data:data.field,
+                success:(res)=>{
+                    if(res.code==200){
+                        layer.msg('恭喜您登录成功！', {
+                            time: 1300,
+                            icon:6,
+                        });
+                            setTimeout(()=>{
+                                location.href=res.url
+                            },1500)
+                    }else{
+                        layer.alert(res.msg, {
+                            icon: 5,
+                            title:'错误提示',
+                            closeBtn:false,
+                            time:1300,
+                            btn:'关闭'
+                        })
+                    }
+                }
+            })
+        });
+    });
+</script>
 </body>
 </html>

@@ -52,6 +52,8 @@ abstract class Base
         return md5($pass.'bai');
     }
 
+
+
 }
 
 

@@ -213,6 +213,7 @@
         btn: ['是的','不退'] //按钮
       }, function(){
         layer.msg('已退出', {icon: 1});
+        $.ajax({method:'get', url:'{:url("login/logout")}'})
         //加事件
 
       }, function(){
