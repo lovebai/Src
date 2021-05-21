@@ -9,6 +9,10 @@ Route::group('thread',function (){
 
 //用户
 Route::group('user',function (){
+    //登录
+    Route::post('login','user/isLogin');
+
+
     Route::rule('','user/index');
 });
 

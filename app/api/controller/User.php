@@ -9,6 +9,21 @@ use think\facade\Request;
 
 class User extends Base
 {
+
+    public function isLogin(){
+        $metheda=Request::param(['username','password']);
+        $methedb=Request::param(['phone','password']);
+        $methedc=Request::param(['email','password']);
+        if(!empty($metheda)&&Request::has('username')){
+            return '';
+        }else if (!empty($methedb)&&Request::has('phone')){
+            return '';
+        }elseif(!empty($methedc)&&Request::has('email')){
+            return '';
+        }else{
+            return $this->create_return(false,203,'error','json');
+        }
+    }
     /**
      * 显示资源列表
      *
