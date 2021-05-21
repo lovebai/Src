@@ -5,9 +5,7 @@ namespace app\api\controller;
 
 
 use app\api\model\User as Users;
-use think\exception\ValidateException;
 use think\facade\Request;
-use app\api\validate\User as Ver;
 
 class User extends Base
 {
@@ -17,20 +15,33 @@ class User extends Base
         $methedb=Request::param(['phone','password']);
         $methedc=Request::param(['email','password']);
         if(!empty($metheda)&&Request::has('username')){
-            try{
-                validate(Ver::class)->check([
-                    'username'=>$metheda['username']
-                ]);
-            }catch (ValidateException $e){
-                dump($e->getError());//错误
+            if($metheda['username']!=''&&$metheda['password']!=''){
+                $data=Users::name('user')->where(array(
+                    'username'=>$metheda['username'],
+                    'password'=>$this->passUser($metheda['password']),
+                    ))->find();
+                if(!empty($data)){
+                    $info=array(
+                        'uid'=>$data['id'],
+                        'token'=>$this->sign_token($data['id'],$data['username'])
+                    );
+                    return $this->create_return($info,200,'恭喜您登录成功','json');
+                }else{
+                    return $this->create_return(false,202,'登录失败','json');
+                }
+
+            }else{
+                return $this->create_return(false,201,'账号或者密码不能为空','json');
             }
 
+            return 1;
+
         }else if (!empty($methedb)&&Request::has('phone')){
-            return '';
+            return 1;
         }elseif(!empty($methedc)&&Request::has('email')){
-            return '';
+            return 1;
         }else{
-            return $this->create_return(false,203,'error','json');
+            return $this->create_return(false,203,'提交参数有误！','json');
         }
     }
     /**

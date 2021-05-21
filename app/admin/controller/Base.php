@@ -53,7 +53,7 @@ abstract class Base
      * @return string
      */
     protected function passUser($pass){
-        return md5($pass.'bai');
+        return sha1(md5($pass).'bai');
     }
 
 
