@@ -10,6 +10,7 @@ use think\facade\Request;
 class User extends Base
 {
 
+    //前端登录
     public function isLogin(){
         $metheda=Request::param(['username','password']);
         $methedb=Request::param(['phone','password']);
@@ -21,7 +22,6 @@ class User extends Base
                     'password'=>$this->passUser($metheda['password']),
                     ))->find();
                 if(!empty($data)){
-
                     $info=array(
                         'uid'=>$data['id'],
                         'token'=>$this->sign_token($data['id'],$data['username'])
@@ -35,12 +35,44 @@ class User extends Base
                 return $this->create_return(false,201,'账号或者密码不能为空','json');
             }
 
-            return 1;
-
         }else if (!empty($methedb)&&Request::has('phone')){
-            return 1;
+            if($methedb['phone']!=''&&$methedb['password']!=''){
+                $data=Users::name('user')->where(array(
+                    'phone'=>$methedb['phone'],
+                    'password'=>$this->passUser($methedb['password']),
+                ))->find();
+                if(!empty($data)){
+                    $info=array(
+                        'uid'=>$data['id'],
+                        'token'=>$this->sign_token($data['id'],$data['username'])
+                    );
+                    return $this->create_return($info,200,'恭喜您登录成功','json');
+                }else{
+                    return $this->create_return(false,202,'登录失败','json');
+                }
+
+            }else{
+                return $this->create_return(false,201,'账号或者密码不能为空','json');
+            }
         }elseif(!empty($methedc)&&Request::has('email')){
-            return 1;
+            if($methedc['email']!=''&&$methedc['password']!=''){
+                $data=Users::name('user')->where(array(
+                    'email'=>$methedc['email'],
+                    'password'=>$this->passUser($methedc['password']),
+                ))->find();
+                if(!empty($data)){
+                    $info=array(
+                        'uid'=>$data['id'],
+                        'token'=>$this->sign_token($data['id'],$data['username'])
+                    );
+                    return $this->create_return($info,200,'恭喜您登录成功','json');
+                }else{
+                    return $this->create_return(false,202,'登录失败','json');
+                }
+
+            }else{
+                return $this->create_return(false,201,'账号或者密码不能为空','json');
+            }
         }else{
             return $this->create_return(false,203,'提交参数有误！','json');
         }
