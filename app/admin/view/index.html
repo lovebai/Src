@@ -21,7 +21,6 @@
                         <div class="layui-card-body">
 
                             <div class="layui-carousel layadmin-carousel layadmin-shortcut">
-                                <div carousel-item>
                                     <ul class="layui-row layui-col-space10">
                                         <li class="layui-col-xs3">
                                             <a lay-href="home/homepage1.html">
@@ -124,7 +123,6 @@
                                     </ul>
 
                                 </div>
-                            </div>
 
                         </div>
                     </div>
@@ -135,7 +133,6 @@
                         <div class="layui-card-body">
 
                             <div class="layui-carousel layadmin-carousel layadmin-backlog">
-                                <div carousel-item>
                                     <ul class="layui-row layui-col-space10">
                                         <li class="layui-col-xs6">
                                             <a lay-href="app/content/comment.html" class="layadmin-backlog-body">
@@ -171,7 +168,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -181,7 +178,7 @@
                         <div class="layui-card-body">
 
                             <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
-                                <div carousel-item id="LAY-index-dataview">
+                                <div id="LAY-index-dataview">
                                     <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                                     <!--<div></div>-->
                                     <div></div>
@@ -240,7 +237,7 @@
                                 </div>
                                 <div class="layui-col-sm8">
                                     <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagethree-home">
-                                        <div carousel-item id="LAY-index-pagethree-home">
+                                        <div id="LAY-index-pagethree-home">
                                             <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
                                         </div>
                                     </div>
@@ -258,7 +255,7 @@
 
         <div class="layui-col-md4">
             <div class="layui-card">
-                <div class="layui-card-header">版本信息</div>
+                <div class="layui-card-header">系统信息</div>
                 <div class="layui-card-body layui-text layadmin-version">
                     <table class="layui-table">
                         <colgroup>
@@ -267,25 +264,19 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                            <td>模板名称</td>
+                            <td>开发语言</td>
                             <td>
-                                layuiAdmin
+                                PHP
                             </td>
                         </tr>
                         <tr>
                             <td>当前版本</td>
-                            <td>
-                                <script type="text/html" template>
-                                    v{{ layui.admin.v }}
-                                </script>
+                            <td>v0.12
                             </td>
                         </tr>
                         <tr>
                             <td>UI 版本</td>
-                            <td>
-                                <script type="text/html" template>
-                                    layui-v{{ layui.v }}
-                                </script>
+                            <td>layui-v2.6.1
                             </td>
                         </tr>
                         <tr>
