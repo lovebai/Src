@@ -5,7 +5,9 @@ namespace app\api\controller;
 
 
 use app\api\model\User as Users;
+use think\exception\ValidateException;
 use think\facade\Request;
+use app\api\validate\User as Ver;
 
 class User extends Base
 {
@@ -15,7 +17,14 @@ class User extends Base
         $methedb=Request::param(['phone','password']);
         $methedc=Request::param(['email','password']);
         if(!empty($metheda)&&Request::has('username')){
-            return '';
+            try{
+                validate(Ver::class)->check([
+                    'username'=>$metheda['username']
+                ]);
+            }catch (ValidateException $e){
+                dump($e->getError());//错误
+            }
+
         }else if (!empty($methedb)&&Request::has('phone')){
             return '';
         }elseif(!empty($methedc)&&Request::has('email')){
