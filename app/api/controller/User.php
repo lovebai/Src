@@ -21,6 +21,7 @@ class User extends Base
                     'password'=>$this->passUser($metheda['password']),
                     ))->find();
                 if(!empty($data)){
+
                     $info=array(
                         'uid'=>$data['id'],
                         'token'=>$this->sign_token($data['id'],$data['username'])

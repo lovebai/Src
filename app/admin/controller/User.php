@@ -88,7 +88,7 @@ class User extends Base
                 return $this->create_return([],400,'Error！',1,'json');
             }
             if($info['password']!=''){
-                $info['password']=$this->passAdmin($info['password']);
+                $info['password']=$this->passUser($info['password']);
             }else{
                 $data=Users::name('user')->where('id',$info['id'])->find();
                 $info['password']=$data['password'];
