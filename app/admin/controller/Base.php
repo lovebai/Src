@@ -12,7 +12,10 @@ use think\Response;
  */
 abstract class Base
 {
-//    protected $middleware = ['Auth'];
+    /**
+     * @var string[]
+     */
+    protected $middleware = ['Auth'];
 
     /**
      * @param $data
@@ -140,6 +143,36 @@ abstract class Base
         } else {
             return false;
         }
+    }
+
+
+    /**
+     * @param $url
+     * @param null $data
+     * @return bool|string
+     */
+    protected function http_request($url, $data = null){
+        $headers=array(
+            'User-Agent'=>'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36',
+            'Accept'=>'text/html,application/xhtml+xml,application/xml'
+        );
+        $curl = curl_init();
+        if( count($headers) >= 1 ){
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        }
+        curl_setopt($curl, CURLOPT_URL, $url);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
     }
 
 }

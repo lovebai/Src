@@ -54,7 +54,7 @@ layui-this
                 <div class="layui-form-item">
                   <label class="layui-form-label">KEY：</label>
                   <div class="layui-input-block">
-                    <input type="password" name="key" required  lay-verify="required" placeholder="请短信平台提供的密钥" autocomplete="off" class="layui-input" value="{$info.key}">
+                    <input type="password" name="key"  placeholder="请短信平台提供的密钥" autocomplete="off" class="layui-input" value="{$info.key}">
                   </div>
                 </div>
 
@@ -77,14 +77,14 @@ layui-this
           <div class="layui-card">
             <div class="layui-card-header">发件测试</div>
             <div class="layui-card-body">
-              <div class="layui-form">
+              <form class="layui-form">
                 <div class="layui-form-item">
                 </div>
 
                 <div class="layui-form-item">
                   <label class="layui-form-label">接收手机：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="phone" required  lay-verify="required|phone" placeholder="请输入要接受短信的手机号" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="to" required  lay-verify="required|phone" placeholder="请输入要接受短信的手机号" autocomplete="off" class="layui-input" value="">
                   </div>
                 </div>
 
@@ -97,11 +97,11 @@ layui-this
 
                 <div class="layui-form-item">
                   <div class="layui-input-block">
-                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">发送</button>
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="send">发送</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -145,6 +145,32 @@ layui-this
             })
           }else{
             layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
+      return false
+    });
+
+    form.on('submit(send)', function(data){
+      $.ajax({
+        url:'{:url("conf/testsms")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              location.reload();
+            })
+          }else{
+            layer.msg(res.msg,{
               icon: 5,
               time: 1000
             })
