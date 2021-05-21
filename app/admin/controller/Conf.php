@@ -1,6 +1,5 @@
 <?php
 
-
 namespace app\admin\controller;
 
 
@@ -45,6 +44,21 @@ class Conf extends Base
                 'info'=>$info
             ]);
         }
+    }
+
+
+//测试发件
+    public function testmail(){
+        $post=Request::param(['to','content']);
+        if(!empty($post)&&Request::has('to')){
+            $info=Option::name('option')->where('id',2)->find();
+            if($this->sendMail($info['name'],$info['v3'],$info['uid'],$info['key'],$info['uid'],$post['to'],'测试标题',$post['content'])){
+                return $this->create_return(true,200,'恭喜您发送成功',1,'json');
+            }else{
+               return $this->create_return(false,201,'发送失败',0,'json');
+            }
+        }
+        $this->create_return(false,403,'error',0,'json');
     }
 
 

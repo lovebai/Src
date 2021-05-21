@@ -38,9 +38,9 @@ layui-this
                 </div>
 
                 <div class="layui-form-item">
-                  <label class="layui-form-label">服务端口：</label>
+                  <label class="layui-form-label">邮箱名称：</label>
                   <div class="layui-input-block">
-                    <input type="number" name="v3" disabled required  lay-verify="required" placeholder="请输入发件服务端口" autocomplete="off" class="layui-input" value="{$info.v3}">
+                    <input type="text" name="v3"  required  lay-verify="required" placeholder="请输入发件人名称" autocomplete="off" class="layui-input" value="{$info.v3}">
                   </div>
                 </div>
 
@@ -84,20 +84,20 @@ layui-this
                 <div class="layui-form-item">
                   <label class="layui-form-label">接收邮箱：</label>
                   <div class="layui-input-block">
-                    <input type="text" name="send_user" required  lay-verify="required|email" placeholder="请输入要接收邮箱账号" autocomplete="off" class="layui-input" value="">
+                    <input type="text" name="to" required  lay-verify="required|email" placeholder="请输入要接收邮箱账号" autocomplete="off" class="layui-input" value="">
                   </div>
                 </div>
 
                 <div class="layui-form-item layui-form-text">
                   <label class="layui-form-label">邮件内容：</label>
                   <div class="layui-input-block">
-                    <textarea name="mail_content" style="height: 183px" placeholder="请再此输入您要发送的内容" class="layui-textarea"></textarea>
+                    <textarea name="content" style="height: 183px" placeholder="请再此输入您要发送的内容" class="layui-textarea"></textarea>
                   </div>
                 </div>
 
                 <div class="layui-form-item">
                   <div class="layui-input-block">
-                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="formDemo">发送</button>
+                    <button class="layui-btn layui-bg-blue" lay-submit lay-filter="send">发送</button>
                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                   </div>
                 </div>
@@ -125,9 +125,10 @@ layui-this
 
 
 
-  layui.use(['form','upload'], function(){
+  layui.use(['form'], function(){
     const form = layui.form;
     const $ = layui.$;
+    const layer = layui.layer;
 
     //监听提交
     form.on('submit(formDemo)', function(data){
@@ -147,6 +148,32 @@ layui-this
             })
           }else{
             layer.msg("Error:"+res.msg,{
+              icon: 5,
+              time: 1000
+            })
+            return false
+          }
+        }
+
+      })
+      return false
+    });
+
+    form.on('submit(send)', function(data){
+      $.ajax({
+        url:'{:url("conf/testmail")}',
+        type:'post',
+        data:data.field,
+        success:(res)=>{
+          if(res.code==200){
+            layer.msg(res.msg,{
+              icon: 6,
+              time: 1000
+            },()=>{
+              location.reload();
+            })
+          }else{
+            layer.msg(res.msg,{
               icon: 5,
               time: 1000
             })
