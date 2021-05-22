@@ -14,7 +14,7 @@ Route::group('user',function (){
     //注册
     Route::post('reg','user/register');
     //查询信息
-    Route::rule('','user/index');
+    Route::post('','user/index');
 });
 
 
