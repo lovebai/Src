@@ -7,21 +7,28 @@ namespace app\api\controller;
 use Firebase\JWT\JWT;
 use think\Response;
 
+/**
+ * Class Base
+ * @package app\api\controller
+ */
 abstract class Base
 {
 
+
     /**
      * @param $data
-     * @param int $code  状态码
-     * @param string $msg 提示
-     * @param string $type 类型
+     * @param int $code
+     * @param int $count
+     * @param string $msg
+     * @param string $type
      * @return Response
      */
-    protected function create_return($data, int $code, string $msg='Succee',string $type='json'): Response
+    protected function create_return($data, int $code, int $count=0, string $msg='Succeed', string $type='json'): Response
     {
         //标准API生成
         $result=[
             'code'=>$code,
+            'count'=>$count,
             'msg'=>$msg,
             'data'=>$data
         ];
@@ -32,7 +39,14 @@ abstract class Base
 
 
     //生成token
-    protected function sign_token($id,$username){
+
+    /**
+     * @param $id
+     * @param $username
+     * @return string
+     */
+    protected function sign_token($id, $username): string
+    {
         $key='!@#$%*&xiaobai';
         $token=array(
             "iss"=>$key,        //签发者 可以为空
@@ -49,7 +63,13 @@ abstract class Base
     }
 
     //用户密码加密
-    protected function passUser($pass){
+
+    /**
+     * @param $pass
+     * @return string
+     */
+    protected function passUser($pass): string
+    {
         return sha1($pass.'bai');
     }
 }
