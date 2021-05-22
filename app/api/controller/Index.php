@@ -7,6 +7,6 @@ class Index extends Base
 {
     public function index()
     {
-        return $this->create_return(false,400,'提交参数错误','json');
+        return $this->create_return(false,400,0,'提交参数错误','json');
     }
 }

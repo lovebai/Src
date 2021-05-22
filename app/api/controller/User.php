@@ -28,7 +28,8 @@ class User extends Base
         $metheda=Request::param(['username','password']);
         $methedb=Request::param(['phone','password']);
         $methedc=Request::param(['email','password']);
-        if(!empty($metheda)&&Request::has('username')&&Request::isAjax()){
+//        if(!empty($metheda)&&Request::has('username')&&Request::isAjax()){//后期在加回来
+        if(!empty($metheda)&&Request::has('username')){
             if($metheda['username']!=''&&$metheda['password']!=''){
                 $data=Users::name('user')->where(array(
                     'username'=>$metheda['username'],
@@ -51,7 +52,8 @@ class User extends Base
                 return $this->create_return(false,201,0,'账号或者密码不能为空','json');
             }
 
-        }else if (!empty($methedb)&&Request::has('phone')&&Request::isAjax()){
+//        }else if (!empty($methedb)&&Request::has('phone')&&Request::isAjax()){//后期在加回来
+        }else if (!empty($methedb)&&Request::has('phone')){
             if($methedb['phone']!=''&&$methedb['password']!=''){
                 $data=Users::name('user')->where(array(
                     'phone'=>$methedb['phone'],
@@ -73,7 +75,8 @@ class User extends Base
             }else{
                 return $this->create_return(false,201,0,'账号或者密码不能为空','json');
             }
-        }elseif(!empty($methedc)&&Request::has('email')&&Request::isAjax()){
+//        }elseif(!empty($methedc)&&Request::has('email')&&Request::isAjax()){//后期在加回来
+        }elseif(!empty($methedc)&&Request::has('email')){
             if($methedc['email']!=''&&$methedc['password']!=''){
                 $data=Users::name('user')->where(array(
                     'email'=>$methedc['email'],
@@ -146,7 +149,8 @@ class User extends Base
      */
     public function index(): \think\Response
     {
-        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){
+//        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
+        if(Request::has('token')&&Request::post('token')!=''){
             $token=$this->check_token(Request::post('token'));
             if($token['code']!=1){
                 $msg=$token['msg'];
@@ -168,9 +172,11 @@ class User extends Base
                     $user['gender']='保密';
                 }
                 if($user['avatar']==''){
-                    $user['avatar']='https://api.xiaobaibk.com/api/qq.php?qq='.$user['qq'];
-                }elseif ($user['qq']==''){
-                    $user['avatar']='/static/images/avatar_user.png';
+                    if($user['qq']==''){
+                        $user['avatar'] = '/static/images/avatar_user.png';
+                    }else{
+                        $user['avatar']='https://api.xiaobaibk.com/api/qq.php?qq='.$user['qq'];
+                    }
                 }
                 unset($user['password']);
                 return $this->create_return($user,200,1);
