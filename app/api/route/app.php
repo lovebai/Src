@@ -11,8 +11,9 @@ Route::group('thread',function (){
 Route::group('user',function (){
     //登录
     Route::post('login','user/isLogin');
-
-
+    //注册
+    Route::post('reg','user/register');
+    //查询信息
     Route::rule('','user/index');
 });
 

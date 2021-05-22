@@ -15,6 +15,7 @@ class User extends Validate
      */
     protected $rule = [
         'username|用户名'  => 'require|max:20|min:2',
+        'password|密码'=>'require|min:32|max:32',
         'phone|手机号'   => 'mobile',
         'email|邮箱' => 'email',
     ];
@@ -29,6 +30,8 @@ class User extends Validate
         'username.require' => '用户名不能为空',
         'username.max'     => '用户名最多不能超过20个字符',
         'username.min'     => '用户名不能少于2个字符',
+        'password.min'     => '用户密码格式',
+        'password.max'     => '用户密码格式有误',
         'phone'  => '手机号格式不正确',
         'email'        => '邮箱格式不正确',
     ];

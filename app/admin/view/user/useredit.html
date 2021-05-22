@@ -5,7 +5,7 @@
 <form class="layui-form layui-form-pane" action="" xmlns="http://www.w3.org/1999/html" id="form">
     <div class="layui-form-item"></div>
     <div class="layui-form-item layui-hide">
-        <label class="layui-form-label">用户名：</label>
+        <label class="layui-form-label">id：</label>
         <div class="layui-input-inline">
             <input type="text" value="{$info.id}" name="id" autocomplete="off" class="layui-input" required  lay-verify="required">
         </div>
@@ -30,7 +30,7 @@
 
         <label class="layui-form-label">用户密码：</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.password}" name="password" autocomplete="off" class="layui-input" >
         </div>
 
     </div>
@@ -38,30 +38,30 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户性别：</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.gender}" name="gender" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.gender}" name="gender" autocomplete="off" class="layui-input" required  >
         </div>
 
         <label class="layui-form-label">用户生日:</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.birthday}" name="birthday" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.birthday}" name="birthday" id="time" autocomplete="off" class="layui-input">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">用户团队：</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.team}" name="team" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.team}" name="team" autocomplete="off" class="layui-input" >
         </div>
 
         <label class="layui-form-label">用户微信：</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.wechat}" name="wechat" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.wechat}" name="wechat" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">用户QQ:</label>
         <div class="layui-input-inline">
-            <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input" required  lay-verify="required">
+            <input type="text" value="{$info.qq}" name="qq" autocomplete="off" class="layui-input">
         </div>
 
 
@@ -112,6 +112,11 @@
         const upload=layui.upload;
         const layer=layui.layer;
         const $=layui.$;
+        const laydate=layui.laydate;
+
+        laydate.render({
+            elem: '#time' //指定元素
+        });
 
         //监听提交
         form.on('submit(formDemo)', function(data){
