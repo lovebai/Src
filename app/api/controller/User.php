@@ -111,7 +111,8 @@ class User extends Base
     {
         if(Request::has('username')&&Request::has('password')&&Request::has('email')&&Request::has('phone')) {
             $list = Request::param(['username', 'password', 'email', 'phone']);
-            if (!empty($list) && $list != null&&Request::isAjax()) {
+//            if (!empty($list) && $list != null&&Request::isAjax()) {//后面改回来
+            if (!empty($list) && $list != null) {
                 try {
                     validate(Ver::class)->check([
                         'username' => $list['username'],

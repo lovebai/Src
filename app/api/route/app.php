@@ -19,6 +19,8 @@ Route::group('user',function (){
 
 
 //漏洞提交
-Route::group('submit',function (){
+Route::group('bug',function (){
     Route::rule('','bug/index');
+    //获取分类
+    Route::rule('get','bug/getType');
 });
