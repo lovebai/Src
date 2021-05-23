@@ -20,7 +20,10 @@ Route::group('user',function (){
 
 //漏洞提交
 Route::group('bug',function (){
-    Route::rule('','bug/index');
+    Route::rule('submit','bug/index');
     //获取分类
     Route::rule('get','bug/getType');
 });
+
+//上传
+Route::rule('uplaod','upload/index');
