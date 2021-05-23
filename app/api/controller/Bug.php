@@ -84,7 +84,8 @@ class Bug extends Base
         }
     }
 
-    public function getList(){
+    public function getList(): \think\Response
+    {
         //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
         if(Request::has('token')&&Request::post('token')!='') {
             $token = $this->check_token(Request::post('token'));
@@ -108,5 +109,7 @@ class Bug extends Base
         }
 
     }
+
+
 
 }
