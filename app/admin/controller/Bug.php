@@ -86,7 +86,7 @@ class Bug extends Base
         }else {
             if (Request::has('id')) {
                 $info = Bugb::name('bug')->where('gid', Request::get('id'))->find();
-                $type = Bugb::name('bugcg')->paginate();
+                $type = Bugb::name('bugcg')->whereNotLike('is','y')->select();
                 $file = Db::name('attachment')->where('gid', $info['gid'])->find();
                 return View::fetch('bugedit', [
                     'data' => $info,
