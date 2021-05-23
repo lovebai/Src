@@ -23,6 +23,8 @@ Route::group('bug',function (){
     Route::rule('submit','bug/index');
     //获取分类
     Route::rule('get','bug/getType');
+    //获取列表
+    Route::rule('list','bug/getList');
 });
 
 //上传

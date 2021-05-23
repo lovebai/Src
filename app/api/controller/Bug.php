@@ -7,9 +7,19 @@ namespace app\api\controller;
 use think\facade\Request;
 use app\api\model\Bug as B;
 
+/**
+ * Class Bug
+ * @package app\api\controller
+ */
 class Bug extends Base
 {
     //前端获取分类
+    /**
+     * @return \think\Response
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
     public function getType(): \think\Response
     {
         //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
@@ -37,7 +47,11 @@ class Bug extends Base
     }
 
 
-    public function index(){
+    /**
+     * @return \think\Response
+     */
+    public function index(): \think\Response
+    {
         //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
         if(Request::has('token')&&Request::post('token')!='') {
             $token = $this->check_token(Request::post('token'));
@@ -69,4 +83,30 @@ class Bug extends Base
             return $this->create_return(false,400,0,'error');
         }
     }
+
+    public function getList(){
+        //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
+        if(Request::has('token')&&Request::post('token')!='') {
+            $token = $this->check_token(Request::post('token'));
+            if ($token['code'] != 1) {
+                $msg = $token['msg'];
+                return $this->create_return(false, 400, 0, (string)$msg);
+            }
+            $text = (array)$token['data'];//用户id
+            $data=B::name('bug')->where('author',$text['username'])->column(['title','subdate']);
+            $count=B::name('bug')->where('author',$text['username'])->select()->count();
+//            $data['type']=B::name('bugcg')->where('id',$data['type']);
+            if($data){
+                return $this->create_return($data,200,$count);
+            }else{
+                return $this->create_return(false,201,0,'error');
+            }
+
+
+        }else{
+            return $this->create_return(false,400,0,'error');
+        }
+
+    }
+
 }
