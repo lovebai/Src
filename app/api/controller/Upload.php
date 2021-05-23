@@ -3,6 +3,7 @@
 
 namespace app\api\controller;
 
+use think\facade\Db;
 use think\facade\Filesystem;
 use think\facade\Request;
 use think\facade\Validate;
@@ -27,22 +28,29 @@ class Upload extends Base
                 //通过输出地址，否则输出错误
                 if ($result) {
                     $info = Filesystem::putFile('bfile', $file);
-//            dump($info);
-                    return $this->create_return(['src' => $info], 200, 'success', 1, 'json');
+                    $gid= Db::name('bug')->order('gid','desc')->column('gid');
+                    $name=explode('\\',$info);
+                    $data=array(
+                      'gid'=>$gid[0]+1,
+                        'filename'=>$name[1],
+                        'filepath'=>$info,
+                        'uptime'=>date("Y-m-d G:i:s",time())
+                    );
+                    if(Db::name('attachment')->insert($data)){
+                        return $this->create_return(['src' => $info], 200, 1);
+                    }else{
+                        return $this->create_return(false, 203, 0, 'error');
+                    }
                 } else {
 //            dump($validate->getError());
-                    return $this->create_return(false, 201, 'error', 0, 'json');
+                    return $this->create_return(false, 201, 0,'error', 'json');
                 }
 
             } else {
-                return $this->create_return(false, 201, 'error', 0, 'json');
+                return $this->create_return(false, 201, 0,'error',  'json');
             }
         }else{
             return $this->create_return(false, 201, '参数有误', 0, 'json');
         }
     }
-
-
-
-
-    }
+}

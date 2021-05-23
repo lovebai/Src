@@ -58,7 +58,7 @@ class Bug extends Base
                 if(B::name('bug')->insert($post)){
                     return $this->create_return(true,200,1);
                 }else{
-                    return $this->create_return(false,203,0);
+                    return $this->create_return(false,203,0,'提交失败');
                 }
             }else{
                 return $this->create_return(false,203,0,'参数错误');
