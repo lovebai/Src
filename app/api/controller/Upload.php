@@ -11,7 +11,7 @@ use think\facade\Validate;
 class Upload extends Base
 {
     public function index(){
-        if(Request::has('file')) {
+        if(Request::has('f')) {
             $file = Request::file("file");
             if ($file) {
 
@@ -50,7 +50,7 @@ class Upload extends Base
                 return $this->create_return(false, 201, 0,'error',  'json');
             }
         }else{
-            return $this->create_return(false, 201, '参数有误', 0, 'json');
+            return $this->create_return(false, 201, 0,'参数有误');
         }
     }
 }

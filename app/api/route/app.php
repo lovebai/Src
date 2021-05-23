@@ -28,4 +28,4 @@ Route::group('bug',function (){
 });
 
 //上传
-Route::rule('uplaod','upload/index');
+Route::rule('upload','upload/index');

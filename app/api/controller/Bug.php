@@ -31,11 +31,11 @@ class Bug extends Base
             }
 //            $id = (array)$token['data'];
             if(Request::has('id')&&Request::post('id')!=''){
-                $type=B::name('bugcg')->where('u_id',Request::post('id'))->column('category', 'id');
+                $type=B::name('bugcg')->where('u_id',Request::post('id'))->column(['id','category']);
                 $count=B::name('bugcg')->where('u_id',Request::post('id'))->select()->count();
                 return $this->create_return($type,200,$count);
             }else{
-                $type=B::name('bugcg')->where('is','y')->column('category', 'id');
+                $type=B::name('bugcg')->where('is','y')->column(['id','category']);
                 $count=B::name('bugcg')->where('is','y')->select()->count();
                 return $this->create_return($type,200,$count);
             }

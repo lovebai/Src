@@ -12,7 +12,19 @@ class Index extends Base
 
     public function index()
     {
-        return View::fetch("/index");
+        //漏洞数
+        $bs=Db::name('bug')->select()->count();
+        $bn=Db::name('bug')->where('status',0)->select()->count();
+
+        //用户数
+        $ps=Db::name('posts')->select()->count();
+        $us=Db::name('user')->select()->count();
+        return View::fetch("/index",[
+            'bs'=>$bs,
+            'bn'=>$bn,
+            'ps'=>$ps,
+            'us'=>$us
+        ]);
     }
 
     public function avatar(){
