@@ -17,7 +17,7 @@ return [
 
     // 应用映射（自动多应用模式有效）
     'app_map'          => [
-        'hj'=>'admin'
+        'admin'=>'admin'
     ],
     // 域名绑定（自动多应用模式有效）
     'domain_bind'      => [],
@@ -26,9 +26,10 @@ return [
 
     // 异常页面的模板文件
     'exception_tmpl'   => app()->getThinkPath() . 'tpl/think_exception.tpl',
+//    'exception_tmpl'   => app()->getAppPath().'404.json',
 
     // 错误显示信息,非调试模式有效
     'error_message'    => '页面错误！请稍后再试～',
     // 显示错误信息
-    'show_error_msg'   => false,
+    'show_error_msg'   => true,
 ];
