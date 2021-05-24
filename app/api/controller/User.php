@@ -142,6 +142,7 @@ class User extends Base
     }
 
 
+    //用户信息
     /**
      * @return \think\Response
      * @throws \think\db\exception\DataNotFoundException
@@ -189,6 +190,32 @@ class User extends Base
             return $this->create_return(false,400,0,'error');
         }
 
+    }
+
+
+    public function update(){
+        //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
+        if(Request::has('token')&&Request::post('token')!=''){
+            $token=$this->check_token(Request::post('token'));
+            if($token['code']!=1){
+                $msg=$token['msg'];
+                return $this->create_return(false,400,0, (string)$msg);
+            }
+            $id=(array)$token['data'];
+            $data=Request::param(['password','phone','email','gender','birthday','team','about','wechat','qq']);
+            if(!empty($data)&&$data!=''){
+                if(Users::name('user')->where('id',$id['id'])->save($data)){
+                    return $this->create_return(true,200,1);
+                }else{
+                    return $this->create_return(false,203,0,'error');
+                }
+            }else{
+                return $this->create_return(false,201,0,'error:参数有误');
+            }
+
+        }else{
+            return $this->create_return(false,400,0,'error');
+        }
     }
 
 }

@@ -15,6 +15,8 @@ Route::group('user',function (){
     Route::post('reg','user/register');
     //查询信息
     Route::post('','user/index');
+    //更新用户信息
+    Route::post('update','user/update');
 });
 
 

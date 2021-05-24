@@ -41,7 +41,7 @@ class Bug extends Base
             }
 
         }else{
-            return $this->create_return(false,400,0,'error');
+            return $this->create_return(false,201,0,'未提交用户token');
         }
 
     }

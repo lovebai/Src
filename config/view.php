@@ -29,5 +29,8 @@ return [
         '__JS__' => '/static/js',
         '__CSS__' => '/static/css',
         '__IMG__' => '/static/images',
+//        '__IM__' => '/static/index/images',
+//        '__IC__' => '/static/index/css',
+//        '__IJ__' => '/static/index/js',
         ],
 ];

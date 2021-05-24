@@ -12,7 +12,7 @@ class Post extends Base
     //文章列表
     public function articleList(): \think\Response
     {
-        $post= Posts::name('posts')->column('title','gid');
+        $post= Posts::name('posts')->column(['title','gid','date']);
         $count= Posts::name('posts')->select()->count();
 
         return $this->create_return($post,200,$count);
