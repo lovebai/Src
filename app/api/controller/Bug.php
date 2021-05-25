@@ -94,7 +94,7 @@ class Bug extends Base
                 return $this->create_return(false, 400, 0, (string)$msg);
             }
             $text = (array)$token['data'];//用户id
-            $data=B::name('bug')->where('author',$text['username'])->column(['title','subdate']);
+            $data=B::name('bug')->where('author',$text['username'])->column(['title','subdate','gid']);
             $count=B::name('bug')->where('author',$text['username'])->select()->count();
 //            $data['type']=B::name('bugcg')->where('id',$data['type']);
             if($data){
