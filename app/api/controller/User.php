@@ -202,9 +202,14 @@ class User extends Base
                 return $this->create_return(false,400,0, (string)$msg);
             }
             $id=(array)$token['data'];
-            $data=Request::param(['password','phone','email','gender','birthday','team','about','wechat','qq']);
+            $data=Request::param(['password','phone','email','gender','birthday','about','wechat','qq']);
+            if ($data['password']==''){
+                unset($data['password']);
+            }else{
+                $data['password']=$this->passUser($data['password']);
+            }
             if(!empty($data)&&$data!=''){
-                if(Users::name('user')->where('id',$id['id'])->save($data)){
+                if(Users::name('user')->where('id',$id['id'])->update($data)){
                     return $this->create_return(true,200,1);
                 }else{
                     return $this->create_return(false,203,0,'error');
