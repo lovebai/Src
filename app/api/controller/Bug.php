@@ -119,8 +119,10 @@ class Bug extends Base
                 $msg = $token['msg'];
                 return $this->create_return(false, 400, 0, (string)$msg);
             }
-            if(Request::has('id')&&Request::post('id')!=''&&is_int(Request::post('id'))){
-                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
+            if(Request::has('id')&&Request::post('id')!=''){
+//                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
+                //可再次开发
+                $data=B::name('bug')->where('gid',Request::post('id'))->find();
                 if($data){
                     return  $this->create_return($data,200,1);
                 }else{

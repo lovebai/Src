@@ -28,7 +28,8 @@ Route::group('bug',function (){
     //获取列表
     Route::rule('list','bug/getList');
     //获取内容
-    Route::rule('gid','bug/getList');
+    Route::rule('gid','bug/getBug');
+
 });
 
 //上传
