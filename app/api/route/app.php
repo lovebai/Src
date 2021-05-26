@@ -27,6 +27,8 @@ Route::group('bug',function (){
     Route::rule('get','bug/getType');
     //获取列表
     Route::rule('list','bug/getList');
+    //获取内容
+    Route::rule('gid','bug/getList');
 });
 
 //上传

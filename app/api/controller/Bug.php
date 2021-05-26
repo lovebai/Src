@@ -111,5 +111,32 @@ class Bug extends Base
     }
 
 
+    public function getBug(){
+        //        if(Request::has('token')&&Request::post('token')!=''&&Request::isAjax()){//后面在加回来
+        if(Request::has('token')&&Request::post('token')!='') {
+            $token = $this->check_token(Request::post('token'));
+            if ($token['code'] != 1) {
+                $msg = $token['msg'];
+                return $this->create_return(false, 400, 0, (string)$msg);
+            }
+            if(Request::has('id')&&Request::post('id')!=''&&is_int(Request::post('id'))){
+                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
+                if($data){
+                    return  $this->create_return($data,200,1);
+                }else{
+                    return $this->create_return(false,201,0,'查询失败');
+                }
+
+            }else{
+                return $this->create_return(false,203,0,'请求参数有误');
+            }
+
+        }else{
+            return $this->create_return(false,400,0,'error');
+        }
+
+    }
+
+
 
 }
