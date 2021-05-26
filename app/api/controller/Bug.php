@@ -64,6 +64,9 @@ class Bug extends Base
                 $post=Request::param(['type','grade','content','attach','title']);
                 $post['author']=$text['username'];
                 $post['subdate']=date("Y-m-d G:i:s",time());
+                if($post['title']==''&&$post['type']==''&&$post['grade']==''){
+                    return $this->create_return(false,204,0,'标题、类型、危害等级不能为空');
+                }
                 if(Request::post('file')==''){
                     $post['attach']=0;
                 }else{
