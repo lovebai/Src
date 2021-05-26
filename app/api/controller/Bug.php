@@ -30,7 +30,7 @@ class Bug extends Base
                 return $this->create_return(false, 400, 0, (string)$msg);
             }
 //            $id = (array)$token['data'];
-            if(Request::has('id')&&Request::post('id')!=''){
+            if(Request::has('id')&&Request::post('id')!=''){//有参数
                 $type=B::name('bugcg')->where('u_id',Request::post('id'))->column(['id','category']);
                 $count=B::name('bugcg')->where('u_id',Request::post('id'))->select()->count();
                 return $this->create_return($type,200,$count);
@@ -126,6 +126,8 @@ class Bug extends Base
 //                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
                 //可再次开发
                 $data=B::name('bug')->where('gid',Request::post('id'))->find();
+                $type=B::name('bugcg')->where('is','n')->column(['id','category']);
+                $data['cate']=$type;
                 if($data){
                     return  $this->create_return($data,200,1);
                 }else{

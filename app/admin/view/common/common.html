@@ -73,7 +73,8 @@
       <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
       <ul class="layui-nav  layui-nav-tree" lay-filter="test" lay-shrink="all">
         <li class="layui-nav-item {block name='index'}{/block}"><a href="{:url('index/index')}"><i class="layui-icon layui-icon-home"></i> 控制台</a></li>
-        <li class="layui-nav-item layui-nav-itemed">
+<!--        <li class="layui-nav-item layui-nav-itemed">-->
+        <li class="layui-nav-item">
           <a class="" href="javascript:;"><i class="layui-icon layui-icon-senior"></i> 漏洞管理</a>
           <dl class="layui-nav-child">
             <dd class="{block name='bug'}{/block} layui-icon"><a href="{:url('bug/index')}"><i class="layui-icon layui-icon-spread-left"></i> 漏洞列表</a></dd>
@@ -88,14 +89,34 @@
             <dd class="{block name='category1'}{/block}"><a href="{:url('post/category')}">文章分类</a></dd>
           </dl>
         </li>
-<!--        暂时隐藏-->
-        <li class="layui-nav-item layui-hide">
+
+        <li class="layui-nav-item layui-disabled" id="dev">
           <a href="javascript:;"><i class="layui-icon layui-icon-gift" style="font-size: 18px;"></i> 活动管理</a>
           <dl class="layui-nav-child">
-            <dd class="{block name='addGift'}{/block}"><a href="{:url('gift/add')}">添加活动</a></dd>
-            <dd class="{block name='giftList'}{/block}"><a href="{:url('gift/list')}">活动列表</a></dd>
+<!--            <dd class="{block name='addGift'}{/block}"><a href="{:url('gift/add')}">添加活动</a></dd>-->
+            <dd class="{block name='addGift'}{/block}"><a href="javascript:;">添加活动</a></dd>
+<!--            <dd class="{block name='giftList'}{/block}"><a href="{:url('gift/list')}">活动列表</a></dd>-->
+            <dd class="{block name='giftList'}{/block}"><a href="javascript:;">活动列表</a></dd>
           </dl>
         </li>
+
+        <li class="layui-nav-item layui-disabled" id="dev1">
+          <a href="javascript:;"><i class="layui-icon layui-icon-release"></i> 厂商管理</a>
+          <dl class="layui-nav-child">
+            <dd class="{block name=''}{/block}"><a href="javascript:;">添加厂商</a></dd>
+            <dd><a href="javascript:;">厂商列表</a></dd>
+          </dl>
+        </li>
+
+        <li class="layui-nav-item layui-disabled" id="dev2">
+          <a href="javascript:;"><i class="layui-icon layui-icon-fire"></i> 漏洞预警</a>
+          <dl class="layui-nav-child">
+            <dd class="{block name=''}{/block}"><a href="javascript:;">添加预警</a></dd>
+            <dd><a href="javascript:;">预警列表</a></dd>
+          </dl>
+        </li>
+
+
         <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;"><i class="layui-icon layui-icon-group"></i> 用户管理</a>
 
@@ -120,15 +141,6 @@
 
           </dl>
 
-        </li>
-
-<!--        暂时不为厂商提供-->
-        <li class="layui-nav-item layui-hide">
-          <a href="javascript:;"><i class="layui-icon layui-icon-release"></i> 厂商管理</a>
-          <dl class="layui-nav-child">
-            <dd class="{block name=''}{/block}"><a href="javascript:;">添加厂商</a></dd>
-            <dd><a href="javascript:;">厂商列表</a></dd>
-          </dl>
         </li>
 
         <li class="layui-nav-item">
@@ -236,6 +248,22 @@
         layer.msg('您阁这和我闹着玩呢！', {
           time: 5000, //20s后自动关闭
         });
+      });
+    })
+
+    $('#dev').click(()=>{
+      layer.msg('该功能正在加急开发中！敬请期待', {
+        time: 5000, //20s后自动关闭
+      });
+    })
+    $('#dev1').click(()=>{
+      layer.msg('该功能正在加急开发中！敬请期待', {
+        time: 5000, //20s后自动关闭
+      });
+    })
+    $('#dev2').click(()=>{
+      layer.msg('该功能正在加急开发中！敬请期待', {
+        time: 5000, //20s后自动关闭
       });
     })
 
