@@ -12,12 +12,14 @@ class Post extends Base
     //文章列表
     public function articleList(): \think\Response
     {
-        $post= Posts::name('posts')->order('gid','desc')->column(['title','gid','date']);
-        $count= Posts::name('posts')->select()->count();
 
-        return $this->create_return($post,200,$count);
+        $list_rows=Request::param('limit');
+        $post= Posts::name('posts')->order('gid','desc')->column(['title','gid','date']);
+
+        return $this->create_return($post,200,1);
 
     }
+
     //具体文章
     public function article(): \think\Response
     {
