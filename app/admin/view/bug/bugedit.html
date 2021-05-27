@@ -121,6 +121,10 @@
         elem: "#content",
         menubar: false,
         branding: false,
+        images_upload_url:'{:url("upload/bugfile")}',
+        form:{
+          enctype:'multipart/form-data'
+        }
       },(opt, edit)=>{
       });
       content=t.get('#content')
