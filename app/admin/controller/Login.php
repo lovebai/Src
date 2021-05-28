@@ -37,14 +37,14 @@ class Login
         );
         $result=Db::name('admin')->where($data)->find();
 
-        if($result['status']==0){
-            return json(array(
-                'code'=>201,
-                'msg'=>'用户已被禁用'
-            ));
-        }
-
         if(!empty($result)){
+            if($result['status']==0){
+                return json(array(
+                    'code'=>201,
+                    'msg'=>'用户已被禁用'
+                ));
+            }
+
             if($result['password']==$password){
                 Session::set("USER_ID",$result['id']);
                 Session::set("USER_NAME",$result['username']);

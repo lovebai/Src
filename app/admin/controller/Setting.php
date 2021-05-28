@@ -15,14 +15,23 @@ class Setting extends Base
     public function index(){
         $info=Request::param(['title','description','keywords','domain','logo','icp','copyright','footer_info']);
         if($info!=''&&!empty($info)&&Request::isAjax()){
+
             try {
                 if (!empty(Request::post('status'))) {
                     $info['status'] = 1;
                 } else {
                     $info['status'] = 0;
                 }
+
+                $logo=Config::name('config')->where('id',1)->find();
+                if ($logo['logo']!=$info['logo']){
+                    $str= app()->getRootPath().'public'.str_replace($logo['domain'],'',$logo['logo']);
+                    if (file_exists( $str)){
+                        unlink($str);
+                    }
+                }
             }catch (ErrorException $e){
-                return $this->create_return([],400,'Error！',1,'json');
+                return $this->create_return(false,400,'Error！',1,'json');
             }
 
             if(Config::name('config')->where('id',1)->save($info)){
@@ -231,5 +240,6 @@ class Setting extends Base
             return $this->create_return([],201,'提交参数有误！',0,'json');
         }
     }
+
 
 }

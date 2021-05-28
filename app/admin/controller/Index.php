@@ -38,7 +38,7 @@ class Index extends Base
                     if ($info['qq']!='') {
                         $avatar = '//api.xiaobaibk.com/api/qq.php?qq=' . $info['qq'];
                     }else{
-                        $avatar='//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg';
+                        $avatar='/static/images/avatar_user.png';
                     }
                 }
             }

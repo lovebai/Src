@@ -19,8 +19,7 @@ return [
 
     // 应用映射（自动多应用模式有效）
     'app_map'          => [
-        'admin'=>'admin',
-        'index'=>'index'
+        'admin'=>'admin'
     ],
     // 域名绑定（自动多应用模式有效）
     'domain_bind'      => [],

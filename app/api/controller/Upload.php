@@ -11,7 +11,7 @@ use think\facade\Validate;
 class Upload extends Base
 {
     public function index(){
-        if(Request::has('f')) {
+        if(Request::has('is')) {
             $file = Request::file("file");
             if ($file) {
 

@@ -166,13 +166,13 @@ class User extends Base
                 }else{
                     $user['status']='禁用';
                 }
-                if($user['gender']==0){
-                    $user['gender']='女';
-                }elseif ($user['gender']==1){
-                    $user['gender']='男';
-                }else{
-                    $user['gender']='保密';
-                }
+//                if($user['gender']==0){
+//                    $user['gender']='女';
+//                }elseif ($user['gender']==1){
+//                    $user['gender']='男';
+//                }else{
+//                    $user['gender']='保密';
+//                }
                 if($user['avatar']==''){
                     if($user['qq']==''){
                         $user['avatar'] = '/static/images/avatar_user.png';

@@ -7,6 +7,7 @@ namespace app\admin\controller;
 use app\admin\model\Posts;
 use think\facade\Db;
 use think\facade\Request;
+use think\facade\Session;
 use think\facade\View;
 
 class Post extends Base
@@ -17,16 +18,18 @@ class Post extends Base
         if($post!=''&&!empty($post)&&Request::isAjax()){
             if(Posts::name('posts')->insert($post)){
 
-                return $this->create_return([],200,'恭喜发布成功！',1,'json');
+                return $this->create_return(true,200,'恭喜发布成功！',1,'json');
 
             }else{
-                return $this->create_return([],201,'发布失败,！',0,'json');
+                return $this->create_return(false,201,'发布失败,！',0,'json');
 
             }
         }else{
             $type=Db::name('postcg')->paginate();
+            $info=Db::name('admin')->where('id',Session::get('USER_ID'))->find();
             return View::fetch('postadd',[
-                'type'=>$type
+                'type'=>$type,
+                'author'=>$info['name']
             ]);
         }
 

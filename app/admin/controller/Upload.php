@@ -24,12 +24,14 @@ class Upload extends Base
             $result = $validate->check([
                 'image' => $file
             ]);
+            $res=Db::name('config')->where('id',1)->find();
+
 
             //通过输出地址，否则输出错误
             if ($result) {
                 $info = Filesystem::putFile('topic', $file);
 //            dump($info);
-                return $this->create_return(['src' => $info], 200, 'success', 1, 'json');
+                return $this->create_return(['src' => $res['domain'].'/uploads/'.$info], 200, 'success', 1, 'json');
             } else {
 //            dump($validate->getError());
                 return $this->create_return([], 201, 'error', 0, 'json');
@@ -63,7 +65,7 @@ class Upload extends Base
             if ($result) {
                 $info = Filesystem::putFile('attach', $file);
 //            dump($info);
-                return $this->create_return('http://'.$res['domain'].'/uploads/'.$info, 0, 'success', 1, 'json');
+                return $this->create_return($res['domain'].'/uploads/'.$info, 0, 'success', 1, 'json');
             } else {
 //            dump($validate->getError());
                 return $this->create_return(false, 201, 'error', 0, 'json');
@@ -96,7 +98,7 @@ class Upload extends Base
             if ($result) {
                 $info = Filesystem::putFile('pfile', $file);
 //            dump($info);
-                return $this->create_return('http://'.$res['domain'].'/uploads/'.$info, 0, 'success', 1, 'json');
+                return $this->create_return($res['domain'].'/uploads/'.$info, 0, 'success', 1, 'json');
             } else {
 //            dump($validate->getError());
                 return $this->create_return(false, 201, 'error', 0, 'json');
