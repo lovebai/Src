@@ -22,6 +22,13 @@ layui-this
       </div>
 
       <div class="layui-form-item">
+        <label class="layui-form-label">用户姓名：</label>
+        <div class="layui-input-block">
+          <input type="text" name="name" required  lay-verify="required|username|email" placeholder="请输入用户姓名" autocomplete="off" class="layui-input"  style="width: 68%">
+        </div>
+      </div>
+
+      <div class="layui-form-item">
         <label class="layui-form-label">用户密码：</label>
         <div class="layui-input-block">
           <input type="text" name="password" required  lay-verify="required|pass|password" placeholder="请输入密码" autocomplete="off" class="layui-input"  style="width: 68%">

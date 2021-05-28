@@ -35,7 +35,7 @@ class Admin extends Base
 
     //添加用户数据
     public function in(){
-        $info=Request::param(['username','password','status','qq','avatar']);
+        $info=Request::param(['username','password','status','qq','avatar','name']);
         if($info!=''&&!empty($info)&&Request::isAjax()){
             try {
                 if (!empty(Request::post('status'))) {
@@ -50,10 +50,10 @@ class Admin extends Base
             $info['password']=$this->passAdmin($info['password']);
             if(Admins::name('admin')->insert($info)){
 
-                return $this->create_return([],200,'恭喜您管理员添加成功！',1,'json');
+                return $this->create_return(true,200,'恭喜您管理员添加成功！',1,'json');
 
             }else{
-                return $this->create_return([],201,'管理员添加失败,！',0,'json');
+                return $this->create_return(false,201,'管理员添加失败,！',0,'json');
 
             }
         }else{
@@ -80,8 +80,11 @@ class Admin extends Base
     }
 
     public function update(){
-        $info=Request::param(['id','username','password','status','qq','avatar']);
+        $info=Request::param(['id','username','password','status','qq','avatar','name']);
         if($info!=''&&!empty($info)&&Request::isAjax()){
+            if($info['username']==$info['password']){
+                return $this->create_return(false,201,'用户名和密码不能设置相同的',0,'json');
+            }
             try {
                 if (!empty(Request::post('status'))) {
                     $info['status']=1;
@@ -90,7 +93,7 @@ class Admin extends Base
                 }
 
             }catch (ErrorException $e){
-                return $this->create_return([],400,'Error！',1,'json');
+                return $this->create_return(false,400,'Error！',1,'json');
             }
             if($info['password']!=''){
                 $info['password']=$this->passAdmin($info['password']);
@@ -100,14 +103,14 @@ class Admin extends Base
             }
             if(Admins::name('admin')->where('id',$info['id'])->update($info)){
 
-                return $this->create_return([],200,'恭喜您修改成功了',1,'json');
+                return $this->create_return(true,200,'恭喜您修改成功了',1,'json');
 
             }else{
-                return $this->create_return([],201,'修改失败',0,'json');
+                return $this->create_return(false,201,'修改失败',0,'json');
 
             }
         }else{
-            return $this->create_return([],204,'未传参数',0,'json');
+            return $this->create_return(false,204,'未传参数',0,'json');
         }
     }
 

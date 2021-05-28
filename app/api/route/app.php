@@ -33,4 +33,4 @@ Route::group('bug',function (){
 });
 
 //上传
-Route::rule('upload','upload/index');
+Route::rule('upload','upload/index')->allowCrossDomain();
