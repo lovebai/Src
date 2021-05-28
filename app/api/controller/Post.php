@@ -14,7 +14,7 @@ class Post extends Base
     {
 
         $list_rows=Request::param('limit');
-        $post= Posts::name('posts')->order('gid','desc')->column(['title','gid','date']);
+        $post= Posts::name('posts')->order('gid','desc')->column(['title','author','date']);
 
         return $this->create_return($post,200,1);
 
