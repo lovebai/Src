@@ -207,8 +207,13 @@ class User extends Base
                 unset($data['password']);
             }else{
                 $data['password']=$this->passUser($data['password']);
+                $pass=Users::name('user')->where('id',$id['id'])->find();
+                if($pass['password']==$data['password']){
+                    return $this->create_return(false,202,0,'密码未做修改');
+                }
             }
             if(!empty($data)&&$data!=''){
+
                 if(Users::name('user')->where('id',$id['id'])->update($data)){
                     return $this->create_return(true,200,1);
                 }else{
