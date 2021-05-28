@@ -144,6 +144,4 @@ class Bug extends Base
 
     }
 
-
-
 }
