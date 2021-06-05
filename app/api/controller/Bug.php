@@ -126,8 +126,8 @@ class Bug extends Base
 //                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
                 //可再次开发
                 $data=B::name('bug')->where('gid',Request::post('id'))->find();
-                $type=B::name('bugcg')->where('is','n')->column(['id','category']);
-                $data['cate']=$type;
+//                $type=B::name('bugcg')->where('is','n')->column(['id','category']);
+//                $data['cate']=$type;
                 if($data){
                     return  $this->create_return($data,200,1);
                 }else{
@@ -144,4 +144,67 @@ class Bug extends Base
 
     }
 
+    public function update(){
+        if(Request::has('token')&&Request::post('token')!='') {
+            $token = $this->check_token(Request::post('token'));
+            if ($token['code'] != 1) {
+                $msg = $token['msg'];
+                return $this->create_return(false, 400, 0, (string)$msg);
+            }
+            $text = (array)$token['data'];//用户id
+            if(Request::has('type')&&Request::has('grade')&&Request::has('content')&&Request::has('attach')){
+                $post=Request::param(['type','grade','content','attach','title','id']);
+                $post['author']=$text['username'];
+                $post['subdate']=date("Y-m-d G:i:s",time());
+                if($post['title']==''&&$post['type']==''&&$post['grade']==''){
+                    return $this->create_return(false,204,0,'标题、类型、危害等级不能为空');
+                }
+                if(Request::post('file')==''){
+                    $post['attach']=0;
+                }else{
+                    $post['attach']=1;
+                }
+                if(B::name('bug')->where('gid',Request::post('id'))->save($post)){
+                    return $this->create_return(true,200,1);
+                }else{
+                    return $this->create_return(false,203,0,'修改失败');
+                }
+            }else{
+                return $this->create_return(false,203,0,'参数错误');
+            }
+
+
+        }else{
+            return $this->create_return(false,400,0,'error');
+        }
+    }
+
+    public function ge(){
+        if(Request::has('token')&&Request::post('token')!='') {
+            $token = $this->check_token(Request::post('token'));
+            if ($token['code'] != 1) {
+                $msg = $token['msg'];
+                return $this->create_return(false, 400, 0, (string)$msg);
+            }
+            if(Request::has('id')&&Request::post('id')!=''){
+//                $data=B::name('bug')->where('gid',Request::post('id'))->column(['title','subdate','gid']);
+                //可再次开发
+//                $data=B::name('bug')->where('gid',Request::post('id'))->find();
+
+                $data=B::name('bugcg')->where('is','n')->column(['id','category']);
+//                $data['cate']=$type;
+                if($data){
+                    return  $this->create_return($data,200,1);
+                }else{
+                    return $this->create_return(false,201,0,'查询失败');
+                }
+
+            }else{
+                return $this->create_return(false,203,0,'请求参数有误');
+            }
+
+        }else{
+            return $this->create_return(false,400,0,'error');
+        }
+    }
 }
