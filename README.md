@@ -4,7 +4,7 @@
  * @Author: Xiaobai
  * @Date: 2021-05-12 12:25:25
  * @LastEditors: Xiaobai
- * @LastEditTime: 2021-07-30 19:13:30
+ * @LastEditTime: 2021-07-30 20:24:23
  * @BlogSite: https://www.xiaobaibk.com
 -->
 
@@ -60,6 +60,8 @@
 * php7.x环境下
 * 在根目录下执行`composer install`
 * 把mysql服务打开`php think run`会返回对应的链接地址
+* 后台地址：/admin
+* 后台账号密码：testtest@test.cn / testtest
 * 使用宝塔或者PHPstudy等搭建把root目录设置到public下，如果有问题就提一个issue
 
 ---
