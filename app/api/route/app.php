@@ -17,7 +17,7 @@ Route::group('user',function (){
     Route::post('','user/index');
     //更新用户信息
     Route::post('update','user/update');
-})->allowCrossDomain();
+});
 
 
 //漏洞提交
@@ -33,7 +33,7 @@ Route::group('bug',function (){
     Route::rule('update','bug/update');
     Route::rule('ge','bug/ge');
 
-})->allowCrossDomain();
+});
 
 //上传
-Route::rule('upload','upload/index')->allowCrossDomain();
+Route::rule('upload','upload/index');
